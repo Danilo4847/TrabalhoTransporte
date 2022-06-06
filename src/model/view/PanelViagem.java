@@ -1,7 +1,6 @@
 package model.view;
 
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
 import model.vo.ViagemVO;
 
 import javax.swing.JLabel;
@@ -103,8 +102,8 @@ public class PanelViagem extends JPanel {
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\danil\\git\\trabalhoTransporte\\trabalhoTransporteVilmar\\src\\icon\\4k-wallpaper-close-up-dew-807598.jpg"));
-		add(lblNewLabel, "1, 1, 10, 52");
+		lblNewLabel.setIcon(new ImageIcon(PanelViagem.class.getResource("/icon/a40082eab598220b06c3338b0f9594a4.jpg")));
+		add(lblNewLabel, "1, 1, 10, 45");
 		
 		JLabel lblNewLabel_1 = new JLabel("VIAGEM");
 		lblNewLabel_1.setFont(new Font("Mongolian Baiti", Font.BOLD, 25));
@@ -149,19 +148,19 @@ public class PanelViagem extends JPanel {
 		
 		JButton btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBackground(new Color(0, 0, 0));
-		add(btnSalvar, "12, 50");
+		add(btnSalvar, "12, 42, 1, 3");
 		
 		JButton btnAtualizar = new JButton("ATUALIZAR");
 		btnAtualizar.setBackground(new Color(0, 0, 0));
-		add(btnAtualizar, "14, 50");
+		add(btnAtualizar, "14, 42, 1, 3");
 		
 		JButton btnImprimir = new JButton("IMPRIMIR");
 		btnImprimir.setBackground(new Color(0, 0, 0));
-		add(btnImprimir, "18, 50");
+		add(btnImprimir, "18, 42, 1, 3");
 		
 		JButton btnExcluirMaterial = new JButton("EXCLUIR");
 		btnExcluirMaterial.setBackground(new Color(0, 0, 0));
-		add(btnExcluirMaterial, "20, 50");
+		add(btnExcluirMaterial, "20, 42, 1, 3");
 
 	}
 

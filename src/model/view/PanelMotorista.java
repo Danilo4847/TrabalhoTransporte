@@ -21,68 +21,73 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Canvas;
 
 public class PanelMotorista extends JPanel {
-	private JTextField textNome;
-	private JTextField textCnh;
 	private JTextField textHabilitação;
+	private JTextField textCNH;
+	private JTextField textNome;
+	private JTextField textCategoriaCarteira;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelMotorista(MotoristaVO motorista) {
-		setBackground(new Color(95, 158, 160));
+		setBackground(Color.LIGHT_GRAY);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
-		setLayout(new MigLayout("", "[38px][2px][88.00px][188.00][4px][257px]", "[44px][2px][20px][20px][20px][23.00px][16.00][][][][][][][][][]"));
+		setLayout(new MigLayout("", "[200px][100px,grow][4px][200px]", "[][24.00px][54.00px][20px][20px][23.00px][16.00][][][][][][][][][]"));
 		
 				
 				JLabel lblNewLabel_3 = new JLabel("INSERIR MOTORISTA");
 				lblNewLabel_3.setFont(new Font("Constantia", Font.PLAIN, 20));
-				add(lblNewLabel_3, "cell 0 0 6 1,alignx center,growy");
-		add(separator, "cell 5 1,alignx center,aligny top");
+				add(lblNewLabel_3, "cell 0 1 4 1,alignx center,growy");
+		add(separator, "cell 1 2 2 1,growx,aligny center");
 		
-		JLabel lblNewLabel = new JLabel("Nome:");
+		JLabel lblNewLabel = new JLabel("NOME");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(lblNewLabel, "cell 0 3,alignx left,aligny center");
+		add(lblNewLabel, "cell 1 3,alignx left,aligny center");
 		
 		textNome = new JTextField();
+		add(textNome, "cell 1 4,growx");
 		textNome.setColumns(10);
-		add(textNome, "cell 2 3 4 1,growx,aligny top");
 		
 		JLabel lblNewLabel_1 = new JLabel("CNH:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(lblNewLabel_1, "cell 0 5,alignx left,aligny center");
+		add(lblNewLabel_1, "cell 1 5,alignx left,aligny center");
 		
-		textCnh = new JTextField();
-		textCnh.setColumns(10);
-		add(textCnh, "cell 2 5 4 1,growx,aligny top");
+		textCNH = new JTextField();
+		add(textCNH, "cell 1 6,growx");
+		textCNH.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Habilita\u00E7\u00E3o:");
+		JLabel lblNewLabel_4 = new JLabel("CATEGORIA DA CARTEIRA");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
+		add(lblNewLabel_4, "cell 1 7");
+		
+		textCategoriaCarteira = new JTextField();
+		add(textCategoriaCarteira, "cell 1 8,growx");
+		textCategoriaCarteira.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("HABILITA\u00C7\u00C3O");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(lblNewLabel_2, "cell 0 7,alignx left,aligny bottom");
+		add(lblNewLabel_2, "cell 1 9,alignx left,aligny bottom");
 		
 		textHabilitação = new JTextField();
 		textHabilitação.setColumns(10);
-		add(textHabilitação, "cell 2 7 4 1,growx,aligny top");
+		add(textHabilitação, "cell 1 10,growx,aligny top");
 		
-		JButton btnEnter = new JButton("Enter");
+		JButton btnEnter = new JButton("     Enter    ");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MotoristaDAO dao = new MotoristaDAO();
-				MotoristaVO vo = new MotoristaVO();
-				vo.setNome(textNome.getText());
-				vo.setCnh(textCnh.getText());
-				vo.setCategoriaCarteira(textHabilitação.getText());
-				dao.inserirMotorista(vo);
+
 			}
 		});
 		btnEnter.setForeground(new Color(112, 128, 144));
 		btnEnter.setBackground(new Color(255, 255, 255));
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(btnEnter, "cell 5 15,growx,aligny top");
+		add(btnEnter, "cell 1 12 1 3,alignx center,growy");
 
 	}
 
