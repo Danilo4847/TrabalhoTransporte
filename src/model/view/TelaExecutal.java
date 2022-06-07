@@ -29,6 +29,7 @@ import javax.swing.Box;
 import java.awt.Dimension;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTable;
+import java.awt.Insets;
 
 public class TelaExecutal extends JFrame{
 
@@ -67,8 +68,8 @@ public class TelaExecutal extends JFrame{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.GRAY);
-		frame.setBounds(100, 100, 699, 396);
+		frame.getContentPane().setBackground(new Color(112, 128, 144));
+		frame.setBounds(100, 100, 800, 499);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane();
 		frame.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
@@ -117,11 +118,11 @@ public class TelaExecutal extends JFrame{
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\danil\\git\\trabalhoTransporte\\trabalhoTransporteVilmar\\src\\icon\\4k-wallpaper-close-up-dew-807598.jpg"));
-		frame.getContentPane().add(lblNewLabel, "1, 1, 16, 9");
+		lblNewLabel.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/floresta.jpg")));
+		frame.getContentPane().add(lblNewLabel, "1, 1, 16, 12");
 		
 		table = new JTable();
-		frame.getContentPane().add(table, "4, 11, 11, 10, fill, fill");
+		frame.getContentPane().add(table, "4, 14, 11, 7, fill, fill");
 		
 		JButton btnAtualizar = new JButton("<<");
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -133,13 +134,19 @@ public class TelaExecutal extends JFrame{
 		
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setMargin(new Insets(10, 10, 0, 0));
+		menuBar.setBackground(new Color(255, 255, 255));
 		frame.setJMenuBar(menuBar);
 		
 		JMenu mnMotorista = new JMenu("MOTORISTA");
+		mnMotorista.setBackground(new Color(0, 0, 0));
+		mnMotorista.setSelectedIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
+		mnMotorista.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
 		mnMotorista.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		menuBar.add(mnMotorista);
 		
 		JMenuItem mntmInserirMotorista = new JMenuItem("Inserir");
+		mntmInserirMotorista.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Car.ico")));
 		mntmInserirMotorista.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnMotorista.add(mntmInserirMotorista);
 		

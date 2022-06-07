@@ -23,7 +23,7 @@ public class PanelViagem extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelViagem(ViagemVO viagem) {
-		setBackground(new Color(153, 153, 153));
+		setBackground(new Color(112, 128, 144));
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				FormSpecs.DEFAULT_COLSPEC,
@@ -95,48 +95,45 @@ public class PanelViagem extends JPanel {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(PanelViagem.class.getResource("/icon/a40082eab598220b06c3338b0f9594a4.jpg")));
-		add(lblNewLabel, "1, 1, 10, 45");
+		lblNewLabel.setIcon(new ImageIcon(PanelViagem.class.getResource("/icon/floresta.jpg")));
+		add(lblNewLabel, "1, 1, 10, 48");
 		
 		JLabel lblNewLabel_1 = new JLabel("VIAGEM");
-		lblNewLabel_1.setFont(new Font("Mongolian Baiti", Font.BOLD, 25));
-		add(lblNewLabel_1, "11, 2, 8, 4");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 40));
+		add(lblNewLabel_1, "11, 2, 11, 7, center, default");
 		
 		JLabel lblNewLabel_2 = new JLabel("MOTORISTA");
 		lblNewLabel_2.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_2, "12, 8");
+		add(lblNewLabel_2, "12, 10");
 		
 		JComboBox cbMotorista = new JComboBox();
-		add(cbMotorista, "12, 10, 9, 1, fill, default");
+		add(cbMotorista, "12, 12, 9, 1, fill, default");
 		
 		JLabel lblVeiculo = new JLabel("VEICULO");
 		lblVeiculo.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblVeiculo, "12, 12, left, default");
+		add(lblVeiculo, "12, 14, left, default");
 		
 		JComboBox cbVeiculo = new JComboBox();
-		add(cbVeiculo, "12, 14, 9, 1, fill, default");
+		add(cbVeiculo, "12, 16, 9, 1, fill, default");
 		
 		JLabel lblNewLabel_4 = new JLabel("REGIONAL");
 		lblNewLabel_4.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_4, "12, 16");
+		add(lblNewLabel_4, "12, 18");
 		
 		JComboBox cbRegional = new JComboBox();
-		add(cbRegional, "12, 18, 9, 1, fill, default");
+		add(cbRegional, "12, 20, 9, 1, fill, default");
 		
 		JLabel lblNewLabel_5 = new JLabel("DATA SAIDA:");
 		lblNewLabel_5.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_5, "12, 22");
+		add(lblNewLabel_5, "12, 24");
 		
 		JLabel lblNewLabel_6 = new JLabel("DATA CHAEGADA:");
 		lblNewLabel_6.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_6, "16, 22");
+		add(lblNewLabel_6, "16, 24");
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
@@ -144,23 +141,23 @@ public class PanelViagem extends JPanel {
 		add(separator, "12, 26, 9, 1");
 		
 		table = new JTable();
-		add(table, "12, 30, 9, 10, fill, fill");
+		add(table, "12, 30, 9, 8, fill, fill");
 		
 		JButton btnSalvar = new JButton("SALVAR");
-		btnSalvar.setBackground(new Color(0, 0, 0));
-		add(btnSalvar, "12, 42, 1, 3");
+		btnSalvar.setBackground(new Color(255, 255, 255));
+		add(btnSalvar, "12, 42, 1, 5, fill, fill");
 		
 		JButton btnAtualizar = new JButton("ATUALIZAR");
-		btnAtualizar.setBackground(new Color(0, 0, 0));
-		add(btnAtualizar, "14, 42, 1, 3");
+		btnAtualizar.setBackground(new Color(255, 255, 255));
+		add(btnAtualizar, "14, 42, 1, 5, fill, fill");
 		
 		JButton btnImprimir = new JButton("IMPRIMIR");
-		btnImprimir.setBackground(new Color(0, 0, 0));
-		add(btnImprimir, "18, 42, 1, 3");
+		btnImprimir.setBackground(new Color(255, 255, 255));
+		add(btnImprimir, "18, 42, 1, 5, fill, fill");
 		
 		JButton btnExcluirMaterial = new JButton("EXCLUIR");
-		btnExcluirMaterial.setBackground(new Color(0, 0, 0));
-		add(btnExcluirMaterial, "20, 42, 1, 3");
+		btnExcluirMaterial.setBackground(new Color(255, 255, 255));
+		add(btnExcluirMaterial, "20, 42, 1, 5, fill, fill");
 
 	}
 

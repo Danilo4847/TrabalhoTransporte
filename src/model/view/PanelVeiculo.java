@@ -23,7 +23,7 @@ public class PanelVeiculo extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelVeiculo(VeiculoVO veiculo) {
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(new Color(112, 128, 144));
 		setLayout(new MigLayout("", "[][grow][]", "[][][][][][][][][][][][][][53.00]"));
 		
 		JLabel lblNewLabel_5 = new JLabel("CADASTRAR VEICULO");

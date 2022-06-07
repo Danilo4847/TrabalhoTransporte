@@ -33,7 +33,7 @@ public class PanelMotorista extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelMotorista(MotoristaVO motorista) {
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(new Color(112, 128, 144));
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
