@@ -6,18 +6,24 @@ import javax.swing.GroupLayout.Alignment;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 
+import controller.VeiculoController;
+import model.exception.ErroAoSalvarVeiculoException;
 import model.vo.VeiculoVO;
 
 import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelVeiculo extends JPanel {
 	private JTextField textModelo;
 	private JTextField textMarca;
 	private JTextField textPlaca;
 	private JTextField textRenavam;
+	private VeiculoVO veiculo = new VeiculoVO();
+	private VeiculoController veiculoController = new VeiculoController();
 
 	/**
 	 * Create the panel.
@@ -67,6 +73,22 @@ public class PanelVeiculo extends JPanel {
 		add(lblNewLabel_4, "cell 1 11");
 		
 		JButton btnNewButton = new JButton("     ENTER     ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				veiculo.setMarca(textMarca.getText());
+				veiculo.setModelo(textModelo.getText());
+				veiculo.setPlaca(textPlaca.getText());
+				veiculo.setRenavam(textRenavam.getText());
+				try {
+					veiculoController.salvar(veiculo);
+				} catch (ErroAoSalvarVeiculoException e1) {
+
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 14));
 		add(btnNewButton, "cell 1 13,alignx center,growy");
 

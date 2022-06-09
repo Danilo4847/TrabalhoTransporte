@@ -5,12 +5,15 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import controller.MotoristaController;
 import model.dao.MotoristaDAO;
+import model.exception.ErroAoSalvarMotoristaException;
 import model.vo.MotoristaVO;
 
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,10 +27,12 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.Canvas;
 
 public class PanelMotorista extends JPanel {
-	private JTextField textHabilitação;
+	private JTextField textMatricula;
 	private JTextField textCNH;
 	private JTextField textNome;
 	private JTextField textCategoriaCarteira;
+	private MotoristaVO motorista= new MotoristaVO();
+	private MotoristaController motoristaController = new MotoristaController();
 
 	/**
 	 * Create the panel.
@@ -70,17 +75,19 @@ public class PanelMotorista extends JPanel {
 		add(textCategoriaCarteira, "cell 1 8,growx");
 		textCategoriaCarteira.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("HABILITA\u00C7\u00C3O");
+		JLabel lblNewLabel_2 = new JLabel("MATRICULA");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		add(lblNewLabel_2, "cell 1 9,alignx left,aligny bottom");
 		
-		textHabilitação = new JTextField();
-		textHabilitação.setColumns(10);
-		add(textHabilitação, "cell 1 10,growx,aligny top");
+		textMatricula = new JTextField();
+		textMatricula.setColumns(10);
+		add(textMatricula, "cell 1 10,growx,aligny top");
 		
 		JButton btnEnter = new JButton("     Enter    ");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				salvar();
 
 			}
 		});
@@ -91,4 +98,27 @@ public class PanelMotorista extends JPanel {
 
 	}
 
+	
+	protected void limparCampos() {
+		this.textNome.setText("");
+		this.textCategoriaCarteira.setText("");
+		this.textCNH.setText("");
+		}
+
+		protected void salvar() {
+		motorista.setNome(textNome.getText());
+		motorista.setCategoriaCarteira(textCategoriaCarteira.getText());
+		motorista.setCnh(textCNH.getText());
+		motorista.setMatricula(Integer.parseInt(textMatricula.getText()));
+		String mensagem;
+		try {
+		mensagem = motoristaController.salvar(motorista);
+		JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
+		limparCampos();
+		} catch (ErroAoSalvarMotoristaException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage(),
+		"AtenÃ§Ã£o", JOptionPane.WARNING_MESSAGE);
+		}
+		}
+	
 }

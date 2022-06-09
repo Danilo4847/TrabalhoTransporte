@@ -7,7 +7,7 @@ public class VeiculoVO {
 	private String modelo;
 	private String placa;
 	private int ano;
-	private int renavam;
+	private String renavam;
 	private boolean status;
 	
 	public int getIdVeiculo() {
@@ -40,10 +40,10 @@ public class VeiculoVO {
 	public void setAno(int ano) {
 		this.ano = ano;
 	}
-	public int getRenavam() {
+	public String getRenavam() {
 		return renavam;
 	}
-	public void setRenavam(int renavam) {
+	public void setRenavam(String renavam) {
 		this.renavam = renavam;
 	}
 	public boolean isStatus() {
