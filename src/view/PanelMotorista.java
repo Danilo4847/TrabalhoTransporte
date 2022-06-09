@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -32,7 +33,8 @@ public class PanelMotorista extends JPanel {
 	private JTextField textNome;
 	private MotoristaVO motorista= new MotoristaVO();
 	private MotoristaController motoristaController = new MotoristaController();
-
+	private JComboBox     CBcategoriaCarteira;
+	private ArrayList<MotoristaVO> categorias= new ArrayList<MotoristaVO>();
 	/**
 	 * Create the panel.
 	 */
@@ -79,7 +81,8 @@ public class PanelMotorista extends JPanel {
 			}
 		});
 		
-		JComboBox CBcategoriaCarteira = new JComboBox();
+		categorias=motoristaController.consultaCategoria();
+	    CBcategoriaCarteira = new JComboBox(categorias.toArray());
 		add(CBcategoriaCarteira, "cell 1 8,growx");
 		btnEnter.setForeground(new Color(112, 128, 144));
 		btnEnter.setBackground(new Color(255, 255, 255));
@@ -92,13 +95,11 @@ public class PanelMotorista extends JPanel {
 	protected void limparCampos() {
 		this.motorista.setIdMotorista(0);
 		this.textNome.setText("");
-		this.textCategoriaCarteira.setText("");
 		this.textCNH.setText("");
 		}
 
 		protected void salvar() {
 		motorista.setNome(textNome.getText());
-		motorista.setCategoriaCarteira(textCategoriaCarteira.getText());
 		motorista.setCnh(textCNH.getText());
 		
 		

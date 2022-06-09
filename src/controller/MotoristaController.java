@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.bo.MotoristaBO;
 import model.dao.MotoristaDAO;
 import model.exception.ErroAoSalvarMotoristaException;
@@ -37,6 +39,10 @@ public class MotoristaController {
 		}
 		
 		return mensagem;
+	}
+	
+	public ArrayList<MotoristaVO> consultaCategoria() {
+		return dao.consultarCategoria(); 
 	}
 	
 	

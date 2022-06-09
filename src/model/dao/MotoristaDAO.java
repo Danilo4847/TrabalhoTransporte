@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -91,6 +92,39 @@ public class MotoristaDAO {
 		}
 		
 		return CNHusado;
+	}
+	
+	
+	public ArrayList<MotoristaVO> consultarCategoria() {
+		
+	
+		
+		ArrayList<MotoristaVO> categorias = new ArrayList<MotoristaVO>();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT distinct  categoria_carteira FROM  motorista  where categoria_carteira is not null;";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			while(resultado.next()) {
+				MotoristaVO vo = new MotoristaVO();
+				
+				vo.setCategoriaCarteira(resultado.getString(1));
+				categorias.add(vo);
+			}
+			
+			
+		
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return categorias;
 	}
 	
 	
