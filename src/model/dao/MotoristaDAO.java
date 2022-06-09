@@ -14,14 +14,14 @@ public class MotoristaDAO {
 
 	public MotoristaVO inserirMotorista(MotoristaVO motorista) {
 		Connection conexao = Banco.getConnection();
-		String query ="insert into motorista(nome,CNH,categoria_carteira,matricula) values(?,?,?,?)";
+		String query ="insert into motorista(nome,CNH,categoria_carteira) values(?,?,?)";
 		PreparedStatement stmt=Banco.getPreparedStatementWithPk(conexao, query);
 		
 		try {
 			stmt.setString(1, motorista.getNome());
 			stmt.setString(2, motorista.getCnh());
 			stmt.setString(3, motorista.getCategoriaCarteira());
-			stmt.setInt(4, motorista.getMatricula());
+	
 			
 			stmt.execute();
 			
@@ -39,7 +39,7 @@ public class MotoristaDAO {
 		boolean atualizou = false;
 		Connection conexao = Banco.getConnection();
 		String sql = " UPDATE MOTORISTA "
-					+" SET NOME=?, CNH=?, categoria_carteira=?, MARTRICULA=?"
+					+" SET NOME=?, CNH=?, categoria_carteira=?"
 					+" WHERE IDMOTORISTA=? ";
 		
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
@@ -49,7 +49,6 @@ public class MotoristaDAO {
 			stmt.setString(2, motorista.getNome());
 			stmt.setString(3, motorista.getCnh());
 			stmt.setString(4, motorista.getCategoriaCarteira());
-			stmt.setInt(5, motorista.getMatricula());
 			int linhasAfetadas = stmt.executeUpdate();
 			atualizou = linhasAfetadas > 0;
 		} catch (SQLException e) {

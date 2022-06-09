@@ -11,7 +11,7 @@ CREATE TABLE MOTORISTA(
 idmotorista int not null auto_increment
 ,nome varchar(50)
 ,matricula numeric(10)
-,tipoCarteira char(2)
+,categoria_carteira char(2)
 ,CNH numeric(11)
 ,primary key(idmotorista)
 
@@ -65,11 +65,11 @@ idmaterial int not null auto_increment
 
 
 
-insert into motorista(nome,matricula,tipocarteira,cnh)values("Edvaldo",123654,"AB",12345678998);
+insert into motorista(nome,matricula,categoria_carteira,cnh)values("Edvaldo",123654,"AB",12345678998);
 
 
 
-insert into vaiculo(marca,modelo,ano,placa,renavam)values("chevrolet","Omega",1998,"ASD4564","00222114455");
+insert into veiculo(marca,modelo,ano,placa,renavam)values("chevrolet","Omega",1998,"ASD4564","00222114455");
 
 
 

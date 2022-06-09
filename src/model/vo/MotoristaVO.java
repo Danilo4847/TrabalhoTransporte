@@ -4,7 +4,6 @@ public class MotoristaVO {
 
 	private int idMotorista;
 	private String nome;
-	private int matricula;
 	private String categoriaCarteira;
 	private String cnh;
 	private boolean status;
@@ -22,12 +21,7 @@ public class MotoristaVO {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public int getMatricula() {
-		return matricula;
-	}
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
+
 	public String getCategoriaCarteira() {
 		return categoriaCarteira;
 	}

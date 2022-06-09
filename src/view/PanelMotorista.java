@@ -1,4 +1,4 @@
-package model.view;
+package view;
 
 import javax.swing.JPanel;
 import com.jgoodies.forms.layout.FormLayout;
@@ -25,12 +25,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Canvas;
+import javax.swing.JComboBox;
 
 public class PanelMotorista extends JPanel {
-	private JTextField textMatricula;
 	private JTextField textCNH;
 	private JTextField textNome;
-	private JTextField textCategoriaCarteira;
 	private MotoristaVO motorista= new MotoristaVO();
 	private MotoristaController motoristaController = new MotoristaController();
 
@@ -43,7 +42,7 @@ public class PanelMotorista extends JPanel {
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
-		setLayout(new MigLayout("", "[200px][100px,grow][4px][200px]", "[][24.00px][54.00px][20px][20px][23.00px][16.00][][][][][][][][][]"));
+		setLayout(new MigLayout("", "[200px][100px,grow][4px][200px]", "[][24.00px][54.00px][20px][20px][23.00px][16.00][][][][][][][][][-78.00][][][]"));
 		
 				
 				JLabel lblNewLabel_3 = new JLabel("INSERIR MOTORISTA");
@@ -71,35 +70,27 @@ public class PanelMotorista extends JPanel {
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(lblNewLabel_4, "cell 1 7");
 		
-		textCategoriaCarteira = new JTextField();
-		add(textCategoriaCarteira, "cell 1 8,growx");
-		textCategoriaCarteira.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("MATRICULA");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(lblNewLabel_2, "cell 1 9,alignx left,aligny bottom");
-		
-		textMatricula = new JTextField();
-		textMatricula.setColumns(10);
-		add(textMatricula, "cell 1 10,growx,aligny top");
-		
-		JButton btnEnter = new JButton("     Enter    ");
+		JButton btnEnter = new JButton("INSERIR");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				salvar();
-
+				limparCampos();
 			}
 		});
+		
+		JComboBox CBcategoriaCarteira = new JComboBox();
+		add(CBcategoriaCarteira, "cell 1 8,growx");
 		btnEnter.setForeground(new Color(112, 128, 144));
 		btnEnter.setBackground(new Color(255, 255, 255));
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(btnEnter, "cell 1 12 1 3,alignx center,growy");
+		add(btnEnter, "cell 1 15 1 3,alignx center,growy");
 
 	}
 
 	
 	protected void limparCampos() {
+		this.motorista.setIdMotorista(0);
 		this.textNome.setText("");
 		this.textCategoriaCarteira.setText("");
 		this.textCNH.setText("");
@@ -109,7 +100,10 @@ public class PanelMotorista extends JPanel {
 		motorista.setNome(textNome.getText());
 		motorista.setCategoriaCarteira(textCategoriaCarteira.getText());
 		motorista.setCnh(textCNH.getText());
-		motorista.setMatricula(Integer.parseInt(textMatricula.getText()));
+		
+		
+		
+		
 		String mensagem;
 		try {
 		mensagem = motoristaController.salvar(motorista);

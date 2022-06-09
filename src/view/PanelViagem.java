@@ -1,4 +1,4 @@
-package model.view;
+package view;
 
 import javax.swing.JPanel;
 import model.vo.ViagemVO;
