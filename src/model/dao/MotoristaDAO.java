@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import model.seletor.SeletorMotorista;
 import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
 
@@ -116,15 +117,77 @@ public class MotoristaDAO {
 				vo.setCategoriaCarteira(resultado.getString(1));
 				categorias.add(vo);
 			}
-			
-			
-		
+
 		
 		} catch (SQLException e) {
 		JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
 		return categorias;
+	}
+	
+	public ArrayList<MotoristaVO> consultaSeletor(SeletorMotorista seletor){
+		Connection conexao = Banco.getConnection();
+		String query=" select*from motorista m ";
+		PreparedStatement stmt =Banco.getPreparedStatement(conexao, query);
+		ArrayList<MotoristaVO> motoristas= new ArrayList<MotoristaVO>();
+		
+		if(seletor.filtro()) {
+			query=cirarFiltros(query,seletor);
+		}
+		
+		try {
+			
+			ResultSet resultado = stmt.executeQuery();
+			
+			while(resultado.next()) {
+				MotoristaVO m = new MotoristaVO();
+				
+				m.setCategoriaCarteira(resultado.getString(1));
+				m.setCnh(resultado.getString(2));
+				m.setNome(resultado.getString(3));
+				m.setStatus(resultado.getBoolean(4));
+				m.setIdMotorista(resultado.getInt(5));
+				
+				motoristas.add(m);
+			}
+			
+		} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "Erro na consulta de motorista "+ e.getMessage());
+		}
+		
+		return motoristas;
+	}
+
+	private String cirarFiltros(String query, SeletorMotorista seletor) {
+		
+		query+=" where ";
+		boolean primeiro=true;
+		
+		if((seletor.getCategoriaCarteira() != null)&&(seletor.getCategoriaCarteira().trim().length()>0)){
+			if(!primeiro) {
+				query+=" and ";
+			}
+			query+=" m.categoria_carteira like '%"+seletor.getCategoriaCarteira()+"%'";
+			primeiro=false;
+		}
+		if((seletor.getCNH() !=null)&&(seletor.getCNH().trim().length()>0)) {
+			if(!primeiro) {
+				query+=" and ";
+			}
+			query+=" m.cnh like'%"+seletor.getCNH()+"%'";
+			primeiro=false;
+		}
+		if((seletor.getNome() !=null)&&(seletor.getNome().trim().length()>0)) {
+			if(!primeiro) {
+				query+=" and ";
+			}
+			query+=" m.nome like'%"+seletor.getNome()+"%'";
+			primeiro=false;
+		}
+		
+		
+		return query;
 	}
 	
 	

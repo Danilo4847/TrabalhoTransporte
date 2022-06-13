@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.bo.MotoristaBO;
 import model.dao.MotoristaDAO;
 import model.exception.ErroAoSalvarMotoristaException;
+import model.seletor.SeletorMotorista;
 import model.vo.MotoristaVO;
 
 
@@ -45,5 +46,7 @@ public class MotoristaController {
 		return dao.consultarCategoria(); 
 	}
 	
-	
+	public ArrayList<MotoristaVO> consulta(SeletorMotorista seletor) {
+		return dao.consultaSeletor(seletor);
+	}
 }

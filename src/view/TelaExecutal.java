@@ -150,6 +150,17 @@ public class TelaExecutal extends JFrame{
 		mntmInserirMotorista.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnMotorista.add(mntmInserirMotorista);
 		
+		JMenuItem mntmConsultarMotorista = new JMenuItem("Consultar");
+		mntmConsultarMotorista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelConsultaMotorista panelConsulta = new PanelConsultaMotorista();
+				frame.setContentPane(panelConsulta);
+				frame.revalidate();
+				
+			}
+		});
+		mnMotorista.add(mntmConsultarMotorista);
+		
 		JMenu mnVeiculo = new JMenu("VEICULO");
 		mnVeiculo.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		menuBar.add(mnVeiculo);
@@ -165,6 +176,17 @@ public class TelaExecutal extends JFrame{
 		mntmInserirVeiculo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnVeiculo.add(mntmInserirVeiculo);
 		
+		JMenuItem mntmConsultaVeiculo = new JMenuItem("Consultar");
+		mntmConsultaVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelConsultaVeiculo panelConsulta = new PanelConsultaVeiculo();
+				frame.setContentPane(panelConsulta);
+				frame.revalidate();
+				
+			}
+		});
+		mnVeiculo.add(mntmConsultaVeiculo);
+		
 		JMenu mnViagem = new JMenu("VIAGEM");
 		mnViagem.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		menuBar.add(mnViagem);
@@ -179,6 +201,18 @@ public class TelaExecutal extends JFrame{
 		});
 		mntmCriarViagem.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnViagem.add(mntmCriarViagem);
+		
+		JMenuItem mntmConsultaViagem = new JMenuItem("Consultar");
+		mntmConsultaViagem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelConsultaViagem panel = new PanelConsultaViagem();
+				frame.setContentPane(panel);
+				frame.revalidate();
+				
+				
+			}
+		});
+		mnViagem.add(mntmConsultaViagem);
 		mntmInserirMotorista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelMotorista painelMotorista = new PanelMotorista(null);
