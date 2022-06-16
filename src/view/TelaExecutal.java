@@ -179,7 +179,9 @@ public class TelaExecutal extends JFrame{
 		JMenuItem mntmConsultaVeiculo = new JMenuItem("Consultar");
 		mntmConsultaVeiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelConsultaVeiculo panelConsulta = new PanelConsultaVeiculo();
+				final PanelConsultaVeiculo panelConsulta = new PanelConsultaVeiculo();
+
+				
 				frame.setContentPane(panelConsulta);
 				frame.revalidate();
 				

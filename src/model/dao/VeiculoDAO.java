@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import com.mysql.cj.PerConnectionLRUFactory;
+
+import model.seletor.SeletorVeiculo;
 import model.vo.VeiculoVO;
 
 public class VeiculoDAO {
@@ -129,4 +134,70 @@ public class VeiculoDAO {
 		
 		return placaUsada;
 	}
+	
+	public ArrayList<VeiculoVO> consulta(SeletorVeiculo selecionado){
+		Connection conexao = Banco.getConnection();
+		String query="SEELCT * FROM VEICULO V";
+		PreparedStatement stmt=Banco.getPreparedStatement(conexao, query);
+	
+		ArrayList<VeiculoVO> veiculos = new  ArrayList<VeiculoVO>();
+		
+		if(selecionado.filtroVeiculo()) {
+			query=criarFiltros(selecionado,query);
+		}
+		
+		try {
+			ResultSet resultado=stmt.executeQuery();
+			while(resultado.next()) {
+				VeiculoVO vo = new VeiculoVO();
+				vo.setAno(resultado.getInt(1));
+				vo.setMarca(resultado.getString(2));
+				vo.setModelo(resultado.getString(3));
+				vo.setPlaca(resultado.getString(4));
+				vo.setRenavam(resultado.getString(5));
+				vo.setStatus(resultado.getBoolean(6));
+				
+				
+				veiculos.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"Não foi possivel executar a query de consulta veiculo "+ e.getMessage());
+		}
+		
+return veiculos;
+		
+	}
+	private String criarFiltros(SeletorVeiculo selecionado, String query) {
+		query=" where ";
+		boolean primeiro = false;
+		if((selecionado.getMarca()!=null)&&(selecionado.getMarca().trim().length()>0)){
+			if(!primeiro) {
+				query=" and ";
+			}
+			query=" v.marca 'like"+selecionado.getMarca()+"%'";
+			primeiro=false;
+		}
+		if((selecionado.getPlaca()!=null)&&(selecionado.getPlaca().trim().length()>0)) {
+			if(!primeiro) {
+				query=" and ";
+			}
+			query=" v.placa 'like"+selecionado.getPlaca()+"%'";
+			primeiro=false;
+		}
+		if((selecionado.getRenavam()!=null)&&(selecionado.getRenavam().trim().length()>0)) {
+			if(!primeiro) {
+				query=" and ";
+			}
+			query=" v.renavam = "+selecionado.getRenavam()+" ";
+			primeiro=false;
+		}
+		
+
+		
+		return query;
+	}
+	
+	
+	
 }

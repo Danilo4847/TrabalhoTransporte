@@ -1,10 +1,13 @@
 package controller;
 
 
+import java.util.ArrayList;
+
 import model.bo.VeiculoBO;
 
 import model.dao.VeiculoDAO;
 import model.exception.ErroAoSalvarVeiculoException;
+import model.seletor.SeletorVeiculo;
 import model.vo.VeiculoVO;
 
 
@@ -38,5 +41,8 @@ public class VeiculoController {
 			mensagem = bo.salvar(novo);
 		}
 		return mensagem;
+	}
+	public ArrayList<VeiculoVO>consulta(SeletorVeiculo selecionado){
+		return dao.consulta(selecionado);
 	}
 }
