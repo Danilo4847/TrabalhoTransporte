@@ -24,10 +24,7 @@ public class SeletorVeiculo {
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-	
-	
-	
-	
+
 	public boolean filtroVeiculo() {
 
 		if((this.marca!=null)&&(this.marca.trim().length()>0)) {

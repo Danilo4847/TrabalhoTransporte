@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.bo.MotoristaBO;
 import model.dao.MotoristaDAO;
 import model.exception.ErroAoSalvarMotoristaException;
+import model.exception.ErroAoSalvarVeiculoException;
 import model.seletor.SeletorMotorista;
 import model.vo.MotoristaVO;
 
@@ -23,7 +24,7 @@ public class MotoristaController {
 			
 			mensagem = "Informe todos os dados do novo cliente";
 			
-		}else if(novo.getCnh().length() != QUANTIDADE_DIGITOS_CNH ){
+		}else if((novo.getCnh().length() != QUANTIDADE_DIGITOS_CNH )&&(novo.getNome().trim() != null)){
 			try {
 				Long.parseLong(novo.getCnh());
 			} catch (NumberFormatException excecao) {
@@ -33,7 +34,10 @@ public class MotoristaController {
 			mensagem += "CNH deve conter 11 digitos";
 			
 			throw new ErroAoSalvarMotoristaException(mensagem);
+
 		}
+
+		
 		
 		if(mensagem.isEmpty()) {
 			mensagem = bo.salvar(novo);
@@ -49,4 +53,9 @@ public class MotoristaController {
 	public ArrayList<MotoristaVO> consulta(SeletorMotorista seletor) {
 		return dao.consultaSeletor(seletor);
 	}
+	
+	public ArrayList<MotoristaVO> consultaNome() {
+		return dao.consultarNomeMotorista();
+	}
+	
 }

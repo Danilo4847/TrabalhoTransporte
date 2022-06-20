@@ -34,6 +34,7 @@ public class PanelConsultaMotorista extends JPanel {
 	private SeletorMotorista seletor= new SeletorMotorista();
 
 	private List<MotoristaVO> motoristas=new ArrayList<MotoristaVO>();
+	private JLabel lblErro;
 	
 	/**
 	 * Create the panel.
@@ -76,9 +77,10 @@ public class PanelConsultaMotorista extends JPanel {
 				FormSpecs.GLUE_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.GLUE_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.GLUE_ROWSPEC,});
-		formLayout.setRowGroups(new int[][]{new int[]{2, 4, 6, 9, 11, 14, 16, 18, 19, 22, 26}});
+		formLayout.setRowGroups(new int[][]{new int[]{2, 4, 6, 9, 11, 14, 16, 18, 19, 22, 27}});
 		setLayout(formLayout);
 		
 		JLabel lblNewLabel = new JLabel("New label");
@@ -113,27 +115,37 @@ public class PanelConsultaMotorista extends JPanel {
 		table = new JTable();
 		add(table, "3, 15, 7, 5, fill, fill");
 		
+		lblErro = new JLabel("New label");
+		add(lblErro, "2, 21, 9, 1, center, center");
+		
 		JButton btnNewButton = new JButton("EXCLUIR");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		add(btnNewButton, "4, 22, 1, 4, fill, center");
+		add(btnNewButton, "4, 22, 1, 5, fill, center");
 		
 		JButton btnNewButton_1 = new JButton("IMPRIMIR");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		add(btnNewButton_1, "8, 22, 1, 4, fill, center");
+		add(btnNewButton_1, "8, 22, 1, 5, fill, center");
 		
 		JButton btnPesquisar = new JButton("PESQUISAR");
+		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnPesquisar.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				
 				seletor.setCategoriaCarteira(textCategoriaCarteira.getText());
 				seletor.setCNH(textCnh.getText());
 				seletor.setNome(textNome.getText());
-				motoristaController.consulta(seletor);
-				
+				atualizarTabela();
 				
 			}
 		});
-		add(btnPesquisar, "6, 23, 1, 2");
+		add(btnPesquisar, "6, 22, 1, 5, fill, center");
 
+	}
+	
+	protected void atualizarTabela() {
+		motoristas=motoristaController.consulta(seletor);
+		
 		table.setModel(new DefaultTableModel(new String[][] { 
 			{ "Categoria","CNH","Nome","ID" }, },
 			new String[] { "Categoria","CNH","Nome","ID"}));
@@ -151,5 +163,17 @@ public class PanelConsultaMotorista extends JPanel {
 			modelo.addRow(novaLinha);
 		}
 	}
-		
+
+	public JLabel getLblErro() {
+		return lblErro;
 	}
+
+	public void setLblErro(JLabel lblErro) {
+		this.lblErro = lblErro;
+	}
+	
+	}
+
+
+		
+	

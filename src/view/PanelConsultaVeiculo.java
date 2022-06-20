@@ -13,9 +13,11 @@ import model.vo.VeiculoVO;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -34,7 +36,7 @@ public class PanelConsultaVeiculo extends JPanel {
 	private List<VeiculoVO> veiculos = new ArrayList<VeiculoVO>();
 	SeletorVeiculo selecionado = new SeletorVeiculo();
 	private JButton btnConsultar;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -63,65 +65,67 @@ public class PanelConsultaVeiculo extends JPanel {
 				FormSpecs.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(52dlu;default):grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(38dlu;default):grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(31dlu;default):grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(51dlu;default)"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(52dlu;default)"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(62dlu;default)"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(31dlu;default)"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(51dlu;default):grow"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(PanelConsultaVeiculo.class.getResource("/icon/floresta.jpg")));
-		add(lblNewLabel, "1, 1, 20, 5");
+		add(lblNewLabel, "1, 1, 20, 7");
 		
 		JLabel lblNewLabel_1 = new JLabel("CONSULTA DE VEICULO");
 		lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 30));
-		add(lblNewLabel_1, "1, 6, 20, 1, center, center");
+		add(lblNewLabel_1, "1, 8, 20, 1, center, center");
 		
 		JLabel lblNewLabel_2 = new JLabel("RENAVAM");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		add(lblNewLabel_2, "4, 8, left, default");
+		add(lblNewLabel_2, "4, 10, left, bottom");
 		
 		JLabel lblNewLabel_3 = new JLabel("PLACA");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		add(lblNewLabel_3, "10, 8, left, default");
+		add(lblNewLabel_3, "10, 10, left, bottom");
 		
 		JLabel lblNewLabel_4 = new JLabel("MARCA");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
-		add(lblNewLabel_4, "16, 8, left, default");
+		add(lblNewLabel_4, "16, 10, left, bottom");
 		
 		textRenavam = new JTextField();
-		add(textRenavam, "4, 10, 3, 2, fill, default");
+		add(textRenavam, "4, 11, 3, 2, fill, center");
 		textRenavam.setColumns(10);
 		
 		textPlaca = new JTextField();
-		add(textPlaca, "10, 10, 3, 2, fill, default");
+		add(textPlaca, "10, 11, 3, 2, fill, center");
 		textPlaca.setColumns(10);
 		
 		textMarca = new JTextField();
-		add(textMarca, "16, 10, 3, 2, fill, default");
+		add(textMarca, "16, 11, 3, 2, fill, center");
 		textMarca.setColumns(10);
 		
 		table = new JTable();
-		add(table, "3, 14, 16, 1, fill, fill");
+		add(table, "3, 14, 16, 3, fill, fill");
 		veiculos=veiculoController.consulta(selecionado);
 		atualizarTabela();
 
 		JButton btnNewButton = new JButton("EXCLUIR");
-		add(btnNewButton, "4, 17, 3, 3");
+		add(btnNewButton, "4, 19, 3, 2, fill, center");
 		
 		btnConsultar = new JButton("CONSULTAR");
 		btnConsultar.addActionListener(new ActionListener() {
@@ -132,10 +136,10 @@ public class PanelConsultaVeiculo extends JPanel {
 				atualizarTabela();
 			}
 		});
-		add(btnConsultar, "10, 17, 3, 3");
+		add(btnConsultar, "10, 19, 3, 2, fill, center");
 		
 		JButton btnNewButton_1 = new JButton("IMPRIMIR");
-		add(btnNewButton_1, "16, 17, 3, 3");
+		add(btnNewButton_1, "16, 19, 3, 2, fill, center");
 
 	}
 

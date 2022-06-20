@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import com.mysql.cj.PerConnectionLRUFactory;
 
 import model.seletor.SeletorVeiculo;
+import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
 
 public class VeiculoDAO {
@@ -25,11 +26,11 @@ public class VeiculoDAO {
 		
 		try {
 			
-			stmtPreparedStatement.setString(2,novo.getMarca());
-			stmtPreparedStatement.setString(3, novo.getModelo());
-			stmtPreparedStatement.setString(4, novo.getPlaca());
-			stmtPreparedStatement.setInt(5, novo.getAno());
-			stmtPreparedStatement.setString(6,novo.getRenavam());
+			stmtPreparedStatement.setString(1,novo.getMarca());
+			stmtPreparedStatement.setString(2, novo.getModelo());
+			stmtPreparedStatement.setString(3, novo.getPlaca());
+			stmtPreparedStatement.setInt(4, novo.getAno());
+			stmtPreparedStatement.setString(5,novo.getRenavam());
 			
 			stmtPreparedStatement.execute();
 			
@@ -137,17 +138,17 @@ public class VeiculoDAO {
 	
 	public ArrayList<VeiculoVO> consulta(SeletorVeiculo selecionado){
 		Connection conexao = Banco.getConnection();
-		String query="SEELCT * FROM VEICULO V";
-		PreparedStatement stmt=Banco.getPreparedStatement(conexao, query);
+		String query="SELECT *FROM VEICULO v";
 	
 		ArrayList<VeiculoVO> veiculos = new  ArrayList<VeiculoVO>();
 		
 		if(selecionado.filtroVeiculo()) {
 			query=criarFiltros(selecionado,query);
 		}
+		PreparedStatement stmt=Banco.getPreparedStatement(conexao, query);
 		
 		try {
-			ResultSet resultado=stmt.executeQuery();
+ 			ResultSet resultado=stmt.executeQuery();
 			while(resultado.next()) {
 				VeiculoVO vo = new VeiculoVO();
 				vo.setAno(resultado.getInt(1));
@@ -169,27 +170,29 @@ return veiculos;
 		
 	}
 	private String criarFiltros(SeletorVeiculo selecionado, String query) {
-		query=" where ";
-		boolean primeiro = false;
+		
+		query+=" where ";
+		boolean primeiro = true;
+		
 		if((selecionado.getMarca()!=null)&&(selecionado.getMarca().trim().length()>0)){
 			if(!primeiro) {
-				query=" and ";
+				query+=" and ";
 			}
-			query=" v.marca 'like"+selecionado.getMarca()+"%'";
+			query+=" v.marca like'%"+selecionado.getMarca()+"%'";
 			primeiro=false;
 		}
 		if((selecionado.getPlaca()!=null)&&(selecionado.getPlaca().trim().length()>0)) {
 			if(!primeiro) {
-				query=" and ";
+				query+=" and ";
 			}
-			query=" v.placa 'like"+selecionado.getPlaca()+"%'";
+			query+=" v.placa like'%"+selecionado.getPlaca()+"%' ";
 			primeiro=false;
 		}
 		if((selecionado.getRenavam()!=null)&&(selecionado.getRenavam().trim().length()>0)) {
 			if(!primeiro) {
-				query=" and ";
+				query+=" and ";
 			}
-			query=" v.renavam = "+selecionado.getRenavam()+" ";
+			query+=" v.renavam = '"+selecionado.getRenavam()+"' ";
 			primeiro=false;
 		}
 		
@@ -197,6 +200,36 @@ return veiculos;
 		
 		return query;
 	}
+	
+	
+	public ArrayList<VeiculoVO> consultarModeloVeiculo() {
+
+		ArrayList<VeiculoVO> veiculos = new ArrayList<VeiculoVO>();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT modelo FROM  veiculo where modelo is not null;";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			while(resultado.next()) {
+				VeiculoVO vo = new VeiculoVO();
+				
+				vo.setModelo(resultado.getString(1));
+				veiculos.add(vo);
+			}
+
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return veiculos;
+	}
+	
 	
 	
 	

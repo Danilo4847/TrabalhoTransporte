@@ -101,7 +101,7 @@ public class PanelMotorista extends JPanel {
 		protected void salvar() {
 		motorista.setNome(textNome.getText());
 		motorista.setCnh(textCNH.getText());
-		
+		motorista.setCategoriaCarteira(CBcategoriaCarteira.getSelectedItem().toString());
 		
 		
 		

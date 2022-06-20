@@ -21,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.ScrollPane;
-import java.awt.Canvas;
 import java.awt.Panel;
 import java.awt.Component;
 import javax.swing.Box;
@@ -30,12 +28,14 @@ import java.awt.Dimension;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTable;
 import java.awt.Insets;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 
-public class TelaExecutal extends JFrame{
+public class TelaExecutavel extends JFrame{
 
 	private JFrame frame;
 	private JTable table;
-
+	private JPanel contenPane;
 	/**
 	 * Launch the application.
 	 */
@@ -43,7 +43,7 @@ public class TelaExecutal extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaExecutal window = new TelaExecutal();
+					TelaExecutavel window = new TelaExecutavel();
 					window.frame.setVisible(true);
 					window.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					window.frame.setExtendedState(JFrame.MAXIMIZED_HORIZ);
@@ -59,7 +59,7 @@ public class TelaExecutal extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public TelaExecutal() {
+	public TelaExecutavel() {
 		initialize();
 	}
 
@@ -91,46 +91,52 @@ public class TelaExecutal extends JFrame{
 				FormSpecs.GROWING_BUTTON_COLSPEC,},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(54dlu;default):grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/floresta.jpg")));
-		frame.getContentPane().add(lblNewLabel, "1, 1, 16, 12");
+		lblNewLabel.setIcon(new ImageIcon(TelaExecutavel.class.getResource("/icon/floresta.jpg")));
+		frame.getContentPane().add(lblNewLabel, "1, 1, 16, 11");
 		
 		table = new JTable();
-		frame.getContentPane().add(table, "4, 14, 11, 7, fill, fill");
+		frame.getContentPane().add(table, "4, 13, 11, 14, fill, fill");
 		
 		JButton btnAtualizar = new JButton("<<");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		frame.getContentPane().add(btnAtualizar, "8, 24, center, center");
+		frame.getContentPane().add(btnAtualizar, "8, 28, center, center");
 		
 		JButton btnNewButton = new JButton(">>");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		frame.getContentPane().add(btnNewButton, "10, 24, center, center");
+		frame.getContentPane().add(btnNewButton, "10, 28, center, center");
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -138,19 +144,37 @@ public class TelaExecutal extends JFrame{
 		menuBar.setBackground(new Color(255, 255, 255));
 		frame.setJMenuBar(menuBar);
 		
+		JMenu mnNewMenu = new JMenu("HOME");
+		mnNewMenu.setFont(new Font("Monospaced", Font.BOLD, 20));
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("TELA PRINCIPAL");
+		mnNewMenu.add(mntmNewMenuItem);
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaExecutavel tela = new TelaExecutavel();
+			
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+			}
+		});
+		mntmNewMenuItem.setFont(new Font("Monospaced", Font.BOLD, 20));
+		mntmNewMenuItem.setBackground(Color.WHITE);
+		
 		JMenu mnMotorista = new JMenu("MOTORISTA");
 		mnMotorista.setBackground(new Color(0, 0, 0));
-		mnMotorista.setSelectedIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
-		mnMotorista.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
-		mnMotorista.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		mnMotorista.setSelectedIcon(new ImageIcon(TelaExecutavel.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
+		mnMotorista.setIcon(new ImageIcon(TelaExecutavel.class.getResource("/icon/Graphicloads-Polygon-Book.ico")));
+		mnMotorista.setFont(new Font("Monospaced", Font.BOLD, 20));
 		menuBar.add(mnMotorista);
 		
 		JMenuItem mntmInserirMotorista = new JMenuItem("Inserir");
-		mntmInserirMotorista.setIcon(new ImageIcon(TelaExecutal.class.getResource("/icon/Graphicloads-Polygon-Car.ico")));
-		mntmInserirMotorista.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInserirMotorista.setIcon(new ImageIcon(TelaExecutavel.class.getResource("/icon/Graphicloads-Polygon-Car.ico")));
+		mntmInserirMotorista.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mnMotorista.add(mntmInserirMotorista);
 		
 		JMenuItem mntmConsultarMotorista = new JMenuItem("Consultar");
+		mntmConsultarMotorista.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mntmConsultarMotorista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelConsultaMotorista panelConsulta = new PanelConsultaMotorista();
@@ -162,7 +186,7 @@ public class TelaExecutal extends JFrame{
 		mnMotorista.add(mntmConsultarMotorista);
 		
 		JMenu mnVeiculo = new JMenu("VEICULO");
-		mnVeiculo.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		mnVeiculo.setFont(new Font("Monospaced", Font.BOLD, 20));
 		menuBar.add(mnVeiculo);
 		
 		JMenuItem mntmInserirVeiculo = new JMenuItem("Inserir");
@@ -173,10 +197,11 @@ public class TelaExecutal extends JFrame{
 				frame.revalidate();
 			}
 		});
-		mntmInserirVeiculo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInserirVeiculo.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mnVeiculo.add(mntmInserirVeiculo);
 		
 		JMenuItem mntmConsultaVeiculo = new JMenuItem("Consultar");
+		mntmConsultaVeiculo.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mntmConsultaVeiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PanelConsultaVeiculo panelConsulta = new PanelConsultaVeiculo();
@@ -190,7 +215,7 @@ public class TelaExecutal extends JFrame{
 		mnVeiculo.add(mntmConsultaVeiculo);
 		
 		JMenu mnViagem = new JMenu("VIAGEM");
-		mnViagem.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		mnViagem.setFont(new Font("Monospaced", Font.BOLD, 20));
 		menuBar.add(mnViagem);
 		
 		JMenuItem mntmCriarViagem = new JMenuItem("Criar");
@@ -201,10 +226,11 @@ public class TelaExecutal extends JFrame{
 				frame.revalidate();
 			}
 		});
-		mntmCriarViagem.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmCriarViagem.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mnViagem.add(mntmCriarViagem);
 		
 		JMenuItem mntmConsultaViagem = new JMenuItem("Consultar");
+		mntmConsultaViagem.setFont(new Font("Monospaced", Font.BOLD, 14));
 		mntmConsultaViagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelConsultaViagem panel = new PanelConsultaViagem();

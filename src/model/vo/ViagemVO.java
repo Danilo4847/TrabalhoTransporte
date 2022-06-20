@@ -10,8 +10,8 @@ public class ViagemVO {
 	private MotoristaVO motorista;
 	private int dataSaida;
 	private int dataChegada;
-	private List conteudo;
-	private List setor;
+	private String conteudo;
+	private String setor;
 	private int quantidade;
 	
 	
@@ -58,18 +58,19 @@ public class ViagemVO {
 	public void setDataChegada(int dataChegada) {
 		this.dataChegada = dataChegada;
 	}
-	public List getConteudo() {
+	public String getConteudo() {
 		return conteudo;
 	}
-	public void setConteudo(List conteudo) {
+	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
 	}
-	public List getSetor() {
+	public String getSetor() {
 		return setor;
 	}
-	public void setSetor(List setor) {
+	public void setSetor(String setor) {
 		this.setor = setor;
 	}
+
 	
 	
 	

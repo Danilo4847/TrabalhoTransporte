@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import model.seletor.SeletorMotorista;
 import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
+import view.PanelConsultaMotorista;
 
 public class MotoristaDAO {
 
@@ -97,9 +98,7 @@ public class MotoristaDAO {
 	
 	
 	public ArrayList<MotoristaVO> consultarCategoria() {
-		
-	
-		
+
 		ArrayList<MotoristaVO> categorias = new ArrayList<MotoristaVO>();
 		
 		Connection conexao = Banco.getConnection();
@@ -128,13 +127,13 @@ public class MotoristaDAO {
 	
 	public ArrayList<MotoristaVO> consultaSeletor(SeletorMotorista seletor){
 		Connection conexao = Banco.getConnection();
-		String query=" select*from motorista m ";
-		PreparedStatement stmt =Banco.getPreparedStatement(conexao, query);
+		String query=" select categoria_carteira, cnh, nome, status, idmotorista from motorista m";
 		ArrayList<MotoristaVO> motoristas= new ArrayList<MotoristaVO>();
 		
 		if(seletor.filtro()) {
 			query=cirarFiltros(query,seletor);
 		}
+		PreparedStatement stmt =Banco.getPreparedStatement(conexao, query);
 		
 		try {
 			
@@ -152,8 +151,11 @@ public class MotoristaDAO {
 				motoristas.add(m);
 			}
 			
-		} catch (Exception e) {
-		JOptionPane.showMessageDialog(null, "Erro na consulta de motorista "+ e.getMessage());
+		} catch (SQLException e) {
+			
+		JOptionPane.showMessageDialog(null, "Erro na conculta de Motorista "+e.getMessage());
+
+		
 		}
 		
 		return motoristas;
@@ -168,7 +170,7 @@ public class MotoristaDAO {
 			if(!primeiro) {
 				query+=" and ";
 			}
-			query+=" m.categoria_carteira like '%"+seletor.getCategoriaCarteira()+"%'";
+			query+=" m.categoria_carteira ='"+seletor.getCategoriaCarteira()+"'";
 			primeiro=false;
 		}
 		if((seletor.getCNH() !=null)&&(seletor.getCNH().trim().length()>0)) {
@@ -188,6 +190,35 @@ public class MotoristaDAO {
 		
 		
 		return query;
+	}
+	
+	
+	public ArrayList<MotoristaVO> consultarNomeMotorista() {
+
+		ArrayList<MotoristaVO> motoristas = new ArrayList<MotoristaVO>();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT nome FROM  motorista  where categoria_carteira is not null;";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			while(resultado.next()) {
+				MotoristaVO vo = new MotoristaVO();
+				
+				vo.setNome(resultado.getString(1));
+				motoristas.add(vo);
+			}
+
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return motoristas;
 	}
 	
 	

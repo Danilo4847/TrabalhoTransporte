@@ -44,6 +44,10 @@ public class MotoristaVO {
 	public String toString() {
 		return this.categoriaCarteira;
 	}
+	public String imprimir() {
+		return this.nome;
+	}
+	
 	
 	
 	
