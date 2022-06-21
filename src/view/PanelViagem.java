@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 
+import model.vo.MaterialVO;
 import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
 import model.vo.ViagemVO;
@@ -39,24 +40,36 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 public class PanelViagem extends JPanel {
 	private JTable table;
 	private MotoristaController motoristaControlle= new MotoristaController();
 	private ArrayList<MotoristaVO>motoristas= new ArrayList<MotoristaVO>();
 	private JComboBox cbMotorista;
-	private JComboBox cbVeiculo;
 	private ArrayList<VeiculoVO> veiculos = new ArrayList<VeiculoVO>();
 	private VeiculoController veiculoController = new VeiculoController();
 	private JComboBox cbRegional;
 	private ArrayList<ViagemVO>regionais = new ArrayList<ViagemVO>();
 	private ViagemController viagemController = new ViagemController();
+	private ArrayList<MaterialVO>setor= new ArrayList<MaterialVO>();
+
 	private JFrame frame = new JFrame();
-	private JTextField textQTD;
 	private JTextField textMaterial;
+	private JTextField textQuantidade;
+	private JComboBox comboMotorista;
 	private JComboBox comboVeiculo;
-	private JPanel panel;
+	private JComboBox comboRegional;
+	private JComboBox comboSetor;
+	private LocalDateTime dataHoraSaida;
+	private LocalDateTime dataHoraChegada;
+	private LocalDate datasaida;
+	private LocalTime horasaida;
+	private LocalDate datachegada;
+	private LocalTime horachegada;
 	/**
 	 * Create the panel.
 	 */
@@ -70,148 +83,227 @@ public class PanelViagem extends JPanel {
 				FormSpecs.GROWING_BUTTON_COLSPEC,
 				FormSpecs.GROWING_BUTTON_COLSPEC,
 				FormSpecs.GROWING_BUTTON_COLSPEC,},
-			new RowSpec[] {
-				RowSpec.decode("max(61dlu;min)"),
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.PREF_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),});
+				new RowSpec[] {
+						RowSpec.decode("max(61dlu;min)"),
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("default:grow"),});
 		formLayout.setRowGroups(new int[][]{new int[]{10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 3, 2}});
 		frame.getContentPane().setLayout(formLayout);
-/*
+		/*
 		DatePickerSettings dateSettings = new DatePickerSettings();
 		dateSettings.setAllowKeyboardEditing(false);
-		
+
 		TimePickerSettings timeSettings = new TimePickerSettings();
 		timeSettings.setAllowKeyboardEditing(false);*/
-	
-				JLabel lblNewLabel_2 = new JLabel("New label");
-				lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\danil\\OneDrive\\Documentos\\TRABALHO_TRANSPORTE\\src\\icon\\floresta.jpg"));
-				frame.getContentPane().add(lblNewLabel_2, "1, 1, 5, 8");
-				
-				JLabel lblNewLabel_1 = new JLabel("CRIAR VIAGEM");
-				lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 30));
-				frame.getContentPane().add(lblNewLabel_1, "1, 9, 5, 1, center, center");
-				
-				JLabel lblNewLabel_5 = new JLabel("Regional");
-				lblNewLabel_5.setFont(new Font("Cambria", Font.BOLD, 15));
-				frame.getContentPane().add(lblNewLabel_5, "2, 10, left, bottom");
-				
-				JComboBox comboRegional = new JComboBox();
-				frame.getContentPane().add(comboRegional, "2, 11, 3, 1, fill, default");
-				
-				JLabel lblNewLabel_4 = new JLabel("Motorista");
-				lblNewLabel_4.setFont(new Font("Cambria", Font.BOLD, 15));
-				frame.getContentPane().add(lblNewLabel_4, "2, 12, left, bottom");
-				
-				JComboBox comboMotorista = new JComboBox();
-				frame.getContentPane().add(comboMotorista, "2, 13, 3, 1, fill, default");
-				
-				JLabel lblNewLabel_3 = new JLabel("Veiculo");
-				lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD, 15));
-				frame.getContentPane().add(lblNewLabel_3, "2, 14, left, bottom");
-				
-				comboVeiculo = new JComboBox();
-				frame.getContentPane().add(comboVeiculo, "2, 15, 3, 1, fill, default");
-		
-				veiculos=veiculoController.consultaModelo();
-				for(VeiculoVO v:veiculos) {
-				comboVeiculo.addItem(v.getMarca());;	
-				}
-				
-				JLabel lblData = new JLabel("Data saida");
-				lblData.setFont(new Font("Cambria", Font.BOLD, 15));
-				frame.getContentPane().add(lblData, "2, 16, left, bottom");
-		
-		
-		final DateTimePicker dataSaida = new DateTimePicker();
-		frame.getContentPane().add(dataSaida, "2, 17, 3, 1, fill, fill");
-		
+
+
+
+
+
+		JLabel lblData = new JLabel("Data saida");
+		lblData.setFont(new Font("Cambria", Font.BOLD, 15));
+		frame.getContentPane().add(lblData, "2, 16, left, bottom");
+		FormLayout formLayout_1 = new FormLayout(new ColumnSpec[] {
+				FormSpecs.GROWING_BUTTON_COLSPEC,
+				ColumnSpec.decode("236px:grow"),
+				FormSpecs.GROWING_BUTTON_COLSPEC,
+				ColumnSpec.decode("239px:grow"),
+				FormSpecs.GROWING_BUTTON_COLSPEC,},
+				new RowSpec[] {
+						RowSpec.decode("30px"),
+						FormSpecs.PARAGRAPH_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.PREF_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("22px"),
+						RowSpec.decode("19px"),
+						FormSpecs.LINE_GAP_ROWSPEC,
+						RowSpec.decode("23px"),
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("19px"),
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC,});
+		setLayout(formLayout_1);
+
+		JLabel lblNewLabel_9 = new JLabel("New label");
+		lblNewLabel_9.setIcon(new ImageIcon(PanelViagem.class.getResource("/icon/floresta.jpg")));
+		add(lblNewLabel_9, "1, 1, 5, 8");
+
+		JLabel lblNewLabel_8 = new JLabel("CRIAR VIAGEM");
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 30));
+		add(lblNewLabel_8, "1, 9, 5, 1, center, center");
+
+		JLabel lblNewLabel_4 = new JLabel("Motorista");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_4, "2, 11");
+
+		comboMotorista = new JComboBox();
+		add(comboMotorista, "2, 13, 3, 1, fill, default");
+
+		JLabel lblNewLabel_3 = new JLabel("Ve\u00EDculo");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_3, "2, 15");
+
+		comboVeiculo = new JComboBox();
+		add(comboVeiculo, "2, 17, 3, 1, fill, default");
+
+		JLabel lblNewLabel_2 = new JLabel("Regional");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_2, "2, 19");
+
+		comboRegional = new JComboBox();
+		add(comboRegional, "2, 21, 3, 1, fill, default");
+
+		JLabel lblNewLabel_1 = new JLabel("Data saida:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_1, "2, 22");
+
 		JLabel lblNewLabel = new JLabel("Data chegada");
-		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 15));
-		frame.getContentPane().add(lblNewLabel, "2, 18, left, bottom");
+		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 12));
+		add(lblNewLabel, "4, 22, left, top");
+
+
+		final DateTimePicker dataSaida = new DateTimePicker();
+		add(dataSaida, "2, 24, fill, center");
 		
+		 datasaida=dataSaida.getDatePicker().getDate();
+		horasaida=dataSaida.getTimePicker().getTime();
 		
+		 
+
 		final DateTimePicker dataChegada = new DateTimePicker();
-		frame.getContentPane().add(dataChegada, "2, 19, 3, 1, fill, fill");
+		add(dataChegada, "4, 24, fill, center");
+
+	 datachegada=dataSaida.getDatePicker().getDate();
+	 horachegada=dataSaida.getTimePicker().getTime();
 		
-		JLabel lblNewLabel_6 = new JLabel("QTD");
-		lblNewLabel_6.setFont(new Font("Cambria", Font.BOLD, 15));
-		frame.getContentPane().add(lblNewLabel_6, "2, 20, left, bottom");
 		
-		JLabel lblNewLabel_7 = new JLabel("Material");
-		lblNewLabel_7.setFont(new Font("Cambria", Font.BOLD, 15));
-		frame.getContentPane().add(lblNewLabel_7, "3, 20, left, bottom");
-		
-		JLabel lblNewLabel_8 = new JLabel("Setor");
-		lblNewLabel_8.setFont(new Font("Cambria", Font.BOLD, 15));
-		frame.getContentPane().add(lblNewLabel_8, "4, 20, left, bottom");
-		
-		textQTD = new JTextField();
-		frame.getContentPane().add(textQTD, "2, 21, left, center");
-		textQTD.setColumns(10);
-		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.BLACK);
+		add(separator, "2, 28, 3, 1");
+
+		JLabel lblNewLabel_5 = new JLabel("Material");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_5, "2, 32");
+
+		JLabel lblNewLabel_6 = new JLabel("Quantidade");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_6, "3, 32");
+
+		JLabel lblNewLabel_7 = new JLabel("Setor");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 11));
+		add(lblNewLabel_7, "4, 32");
+
 		textMaterial = new JTextField();
-		frame.getContentPane().add(textMaterial, "3, 21, fill, center");
+		add(textMaterial, "2, 34, fill, default");
 		textMaterial.setColumns(10);
-		
-		JComboBox comboSetor = new JComboBox();
-		frame.getContentPane().add(comboSetor, "4, 21, fill, default");
-		
-		JButton btnNewButton = new JButton("IMPRIMIR");
-		frame.getContentPane().add(btnNewButton, "2, 23");
-		
-		JButton btnNewButton_1 = new JButton("SALVAR");
-		btnNewButton_1.addActionListener(new ActionListener() {
+
+		textQuantidade = new JTextField();
+		add(textQuantidade, "3, 34, left, default");
+		textQuantidade.setColumns(10);
+
+		comboSetor = new JComboBox();
+		add(comboSetor, "4, 34, fill, default");
+
+		JButton btnNewButton = new JButton("SALVAR");
+		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				LocalDate dataSelecionadaChegada = dataChegada.getDatePicker().getDate();
-				LocalTime horaSelecionadaChegada = dataChegada.getTimePicker().getTime();
-				
-				LocalDate dataSelecionadaSaida = dataSaida.getDatePicker().getDate();
-				LocalTime horaSelecionadaSaida = dataSaida.getTimePicker().getTime();
-				
-				
-		
-				if(dataSelecionadaSaida != null && horaSelecionadaSaida != null) {
-					LocalDateTime dataComHora = LocalDateTime.of(dataSelecionadaSaida, horaSelecionadaSaida);
 
-				}
-				}
-	
-			
+				salvar();
+
+			}
 		});
-		
-		frame.getContentPane().add(btnNewButton_1, "3, 23");
-		
-		JButton btnNewButton_2 = new JButton("ATUALIZAR");
-		frame.getContentPane().add(btnNewButton_2, "4, 23");
-		
-		 panel = new JPanel();
-		frame.getContentPane().add(panel, "2, 25, fill, fill");
-		
-	
-	}
+		add(btnNewButton, "2, 38");
 
+		JButton btnNewButton_1 = new JButton("CRIAR");
+		add(btnNewButton_1, "4, 38");
+
+		veiculos=veiculoController.consultaModelo();
+		for(VeiculoVO v:veiculos) {
+			comboVeiculo.addItem(v.getModelo());	
+		}
+		motoristas=motoristaControlle.consultaNome();
+		for(MotoristaVO m:motoristas) {
+			comboMotorista.addItem(m.getNome());
+		}
+		regionais=viagemController.consultaRegional();
+		for(ViagemVO v:regionais) {
+			comboRegional.addItem(v.getRegional());
+		}
+		setor=viagemController.setor();
+		for(MaterialVO m : setor) {
+			comboSetor.addItem(m.getSetor());
+		}
+
+
+	}
+	protected void salvar() {
+		
+		ViagemVO viagem = new ViagemVO();
+		MaterialVO material = new MaterialVO();
+		
+		material.setConteudo(textMaterial.getText());
+		material.setQuantidade(Integer.parseInt(textQuantidade.getText()));
+		material.setSetor(comboSetor.toString());
+		viagem.setMaterial(material);
+		viagem.setRegional(comboRegional.toString());
+		String nomeMotorista=comboMotorista.toString();
+		viagem.setMotorista(motoristaControlle.motorista(motoristaControlle.ConsultaMotorista(nomeMotorista).getIdMotorista()));
+		String modeloVeiculo=comboVeiculo.toString();
+		viagem.setVeiculo(veiculoController.veiculo(veiculoController.veicuo(modeloVeiculo).getIdVeiculo()));
+		int d=Integer.parseInt(dataHoraChegada.toString());
+		viagem.setDataChegada(d);
+		viagemController.salvar(viagem);
+
+		 dataHoraChegada=LocalDateTime.of(datachegada, horachegada);
+		 dataHoraSaida=LocalDateTime.of(datasaida, horasaida);
+	}
 }
-	
+

@@ -105,7 +105,7 @@ public class VeiculoDAO {
 	
 	public boolean renavamJaUtilizado(String renavam) {
 		Connection conexao = Banco.getConnection();
-		String sql = " select id from VEICULO v " + 
+		String sql = " select idveiculo from VEICULO v " + 
 				"where v.renavam = '" + renavam + "'";
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		boolean renavamUsado = false;
@@ -119,6 +119,7 @@ public class VeiculoDAO {
 		
 		return renavamUsado;
 	}
+	
 	public boolean placaJaUtilizada(String placa) {
 		Connection conexao = Banco.getConnection();
 		String sql = " select id from VEICULO v " + 
@@ -230,7 +231,63 @@ return veiculos;
 		return veiculos;
 	}
 	
+	public VeiculoVO consultaVeiculo(String modelo) {
+
+		VeiculoVO veiculo = new VeiculoVO();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT * FROM  veiculo where modelo =	'"+modelo+"'";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			veiculo.setAno(resultado.getInt(1));
+			veiculo.setIdVeiculo(resultado.getInt(2));
+			veiculo.setMarca(resultado.getString(3));
+			veiculo.setModelo(resultado.getString(4));
+			veiculo.setPlaca(resultado.getString(5));
+			veiculo.setRenavam(resultado.getString(6)); 
+			veiculo.setStatus(resultado.getBoolean(7));
+			
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return veiculo;
+	}
 	
-	
+	public VeiculoVO consulta(int id) {
+
+		VeiculoVO veiculo = new VeiculoVO();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT * FROM  veiculo where idveiculo=	'"+id+"'";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			veiculo.setAno(resultado.getInt(1));
+			veiculo.setIdVeiculo(resultado.getInt(2));
+			veiculo.setMarca(resultado.getString(3));
+			veiculo.setModelo(resultado.getString(4));
+			veiculo.setPlaca(resultado.getString(5));
+			veiculo.setRenavam(resultado.getString(6)); 
+			veiculo.setStatus(resultado.getBoolean(7));
+			
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return veiculo;
+	}
+		
 	
 }

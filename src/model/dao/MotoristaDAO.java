@@ -222,4 +222,62 @@ public class MotoristaDAO {
 	}
 	
 	
+	public MotoristaVO consultarNomeMotorista(String nome) {
+
+		MotoristaVO motorista = new MotoristaVO();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT * FROM  motorista  where nome='"+nome+"'";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			motorista.setCategoriaCarteira(resultado.getString(1));
+			motorista.setCnh(resultado.getString(2));
+			motorista.setIdMotorista(resultado.getInt(3));
+			motorista.setNome(resultado.getString(4));
+			motorista.setStatus(resultado.getBoolean(5));
+	
+
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return motorista;
+	}
+	
+	public MotoristaVO consultar(int id) {
+
+		MotoristaVO motorista = new MotoristaVO();
+		
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT * FROM  motorista  where idmotorista='"+id+"'";
+					
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		
+		
+		try {
+			ResultSet resultado = stmt.executeQuery();
+			
+			motorista.setCategoriaCarteira(resultado.getString(1));
+			motorista.setCnh(resultado.getString(2));
+			motorista.setIdMotorista(resultado.getInt(3));
+			motorista.setNome(resultado.getString(4));
+			motorista.setStatus(resultado.getBoolean(5));
+	
+
+		
+		} catch (SQLException e) {
+		JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return motorista;
+	}
+	
+	
+	
 }

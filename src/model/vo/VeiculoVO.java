@@ -52,6 +52,10 @@ public class VeiculoVO {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	@Override
+	public String toString() {
+		return "VeiculoVO [modelo=" + modelo + "]";
+	}
 	
 	
 }

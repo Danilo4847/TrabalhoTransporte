@@ -100,9 +100,7 @@ public class PanelVeiculo extends JPanel {
 		add(btnNewButton, "cell 1 18,alignx center,growy");
 		
 		//REMOVER PARA INCLUSÃO
-		final DateTimePicker f = new DateTimePicker();
-		f.setBounds(100,100,500,60);
-		add(f);
+
 	}
 
 	protected void salvar() {
@@ -113,6 +111,7 @@ public class PanelVeiculo extends JPanel {
 		try {
 			veiculo.setAno(Integer.parseInt(textAno.getText()));
 			veiculoController.salvar(veiculo);
+			
 		} catch (NumberFormatException e) {
 			lblErro.setBackground(new Color(255,0,0));
 			lblErro.setText("Informe o ANO com somente dígitos");

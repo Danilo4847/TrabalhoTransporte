@@ -1,5 +1,6 @@
 package model.vo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ViagemVO {
@@ -8,19 +9,19 @@ public class ViagemVO {
 	private String regional;
 	private VeiculoVO veiculo;
 	private MotoristaVO motorista;
-	private int dataSaida;
-	private int dataChegada;
-	private String conteudo;
-	private String setor;
-	private int quantidade;
+	private MaterialVO material;
+	private LocalDateTime dataSaida;
+	private LocalDateTime dataChegada;
+
 	
 	
 	
-	public int getQuantidade() {
-		return quantidade;
+
+	public MaterialVO getMaterial() {
+		return material;
 	}
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+	public void setMaterial(MaterialVO material) {
+		this.material = material;
 	}
 	public int getIdviagem() {
 		return idviagem;
@@ -46,29 +47,17 @@ public class ViagemVO {
 	public void setMotorista(MotoristaVO motorista) {
 		this.motorista = motorista;
 	}
-	public int getDataSaida() {
+	public LocalDateTime getDataSaida() {
 		return dataSaida;
 	}
-	public void setDataSaida(int dataSaida) {
+	public void setDataSaida(LocalDateTime dataSaida) {
 		this.dataSaida = dataSaida;
 	}
-	public int getDataChegada() {
+	public LocalDateTime getDataChegada() {
 		return dataChegada;
 	}
-	public void setDataChegada(int dataChegada) {
+	public void setDataChegada(LocalDateTime dataChegada) {
 		this.dataChegada = dataChegada;
-	}
-	public String getConteudo() {
-		return conteudo;
-	}
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
-	}
-	public String getSetor() {
-		return setor;
-	}
-	public void setSetor(String setor) {
-		this.setor = setor;
 	}
 
 	
