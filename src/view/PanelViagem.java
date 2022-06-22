@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 
+import model.exception.ErroAoSalvarViagemException;
 import model.vo.MaterialVO;
 import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
@@ -131,45 +132,49 @@ public class PanelViagem extends JPanel {
 				FormSpecs.GROWING_BUTTON_COLSPEC,
 				ColumnSpec.decode("239px:grow"),
 				FormSpecs.GROWING_BUTTON_COLSPEC,},
-				new RowSpec[] {
-						RowSpec.decode("30px"),
-						FormSpecs.PARAGRAPH_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.PREF_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						RowSpec.decode("22px"),
-						RowSpec.decode("19px"),
-						FormSpecs.LINE_GAP_ROWSPEC,
-						RowSpec.decode("23px"),
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						RowSpec.decode("19px"),
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
-						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,});
+			new RowSpec[] {
+				RowSpec.decode("30px"),
+				FormSpecs.PARAGRAPH_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.PREF_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("22px"),
+				RowSpec.decode("19px"),
+				FormSpecs.LINE_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("19px"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,});
 		setLayout(formLayout_1);
 
 		JLabel lblNewLabel_9 = new JLabel("New label");
@@ -212,19 +217,19 @@ public class PanelViagem extends JPanel {
 
 		final DateTimePicker dataSaida = new DateTimePicker();
 		add(dataSaida, "2, 24, fill, center");
-		
-		 datasaida=dataSaida.getDatePicker().getDate();
+
+		datasaida=dataSaida.getDatePicker().getDate();
 		horasaida=dataSaida.getTimePicker().getTime();
-		
-		 
+
+
 
 		final DateTimePicker dataChegada = new DateTimePicker();
 		add(dataChegada, "4, 24, fill, center");
 
-	 datachegada=dataSaida.getDatePicker().getDate();
-	 horachegada=dataSaida.getTimePicker().getTime();
-		
-		
+		datachegada=dataSaida.getDatePicker().getDate();
+		horachegada=dataSaida.getTimePicker().getTime();
+
+
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
 		add(separator, "2, 28, 3, 1");
@@ -256,10 +261,18 @@ public class PanelViagem extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				salvar();
+				try {
+					salvar();
+				} catch (ErroAoSalvarViagemException e1) {
+					JOptionPane.showMessageDialog(btnNewButton, "ERRO FATAL. O SEU COMPUTADOR VAI EXPLODIR EM 5..4...3...2...1.................PEGADINHA");
+					e1.printStackTrace();
+				}
 
 			}
 		});
+
+		JButton btnNewButton_2 = new JButton("+");
+		add(btnNewButton_2, "5, 34, left, default");
 		add(btnNewButton, "2, 38");
 
 		JButton btnNewButton_1 = new JButton("CRIAR");
@@ -284,26 +297,38 @@ public class PanelViagem extends JPanel {
 
 
 	}
-	protected void salvar() {
-		
+	protected void salvar() throws ErroAoSalvarViagemException {
+
 		ViagemVO viagem = new ViagemVO();
 		MaterialVO material = new MaterialVO();
-		
+
 		material.setConteudo(textMaterial.getText());
-		material.setQuantidade(Integer.parseInt(textQuantidade.getText()));
+
+		try {
+			material.setQuantidade(Integer.parseInt(textQuantidade.getText()));			
+		} catch (NumberFormatException e) {
+
+		}
+
 		material.setSetor(comboSetor.toString());
-		viagem.setMaterial(material);
-		viagem.setRegional(comboRegional.toString());
+
+		/*	viagem.setMotorista();
 		String nomeMotorista=comboMotorista.toString();
 		viagem.setMotorista(motoristaControlle.motorista(motoristaControlle.ConsultaMotorista(nomeMotorista).getIdMotorista()));
-		String modeloVeiculo=comboVeiculo.toString();
-		viagem.setVeiculo(veiculoController.veiculo(veiculoController.veicuo(modeloVeiculo).getIdVeiculo()));
-		int d=Integer.parseInt(dataHoraChegada.toString());
-		viagem.setDataChegada(d);
-		viagemController.salvar(viagem);
 
-		 dataHoraChegada=LocalDateTime.of(datachegada, horachegada);
-		 dataHoraSaida=LocalDateTime.of(datasaida, horasaida);
+		String modeloVeiculo=comboVeiculo.toString();
+
+		viagem.setVeiculo(veiculoController.veiculo(veiculoController.veicuo(modeloVeiculo).getIdVeiculo()));
+		 */		
+		
+		
+		viagem.setMaterial(material);
+		viagem.setRegional(comboRegional.toString());
+		viagem.setDataSaida(dataHoraSaida);
+		viagemController.salvar(viagem);
+		viagem.setDataChegada(dataHoraChegada);
+		dataHoraChegada=LocalDateTime.of(datachegada, horachegada);
+		dataHoraSaida=LocalDateTime.of(datasaida, horasaida);
 	}
 }
 

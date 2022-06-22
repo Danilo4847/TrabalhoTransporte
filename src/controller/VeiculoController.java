@@ -30,7 +30,7 @@ public class VeiculoController {
 		}else { 
 			mensagem = validarModelo(novo);
 			mensagem = validarMarca(novo);
-			//	mensagem = validarPlaca(novo);
+			mensagem = validarPlaca(novo);
 			mensagem = validarRenavam(novo);
 			mensagem = validarAno(novo);
 
@@ -41,10 +41,6 @@ public class VeiculoController {
 
 		return mensagem;
 	}
-
-
-
-
 
 	private String validarModelo(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
 		String mensagem="";
@@ -69,21 +65,19 @@ public class VeiculoController {
 		return mensagem;
 	}
 
-
 	private String validarAno(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
-        String mensagem = "";
-        Calendar cal = Calendar.getInstance();
-        int ano = cal.get(Calendar.YEAR);
+		String mensagem = "";
+		Calendar cal = Calendar.getInstance();
+		int ano = cal.get(Calendar.YEAR);
 
-        if((novo.getAno()>=1884) && (novo.getAno()<= ano+1)){
-            mensagem="";
-        }else{ 
-            mensagem += "informe o ano certo ";
-            throw new ErroAoSalvarVeiculoException(mensagem);
-        }
-        return mensagem;
-    }
-
+		if((novo.getAno()>=1884) && (novo.getAno()<= ano+1)){
+			mensagem="";
+		}else{ 
+			mensagem += "informe o ano certo ";
+			throw new ErroAoSalvarVeiculoException(mensagem);
+		}
+		return mensagem;
+	}
 
 	private String validarRenavam(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
 		String mensagem = "";
@@ -101,9 +95,22 @@ public class VeiculoController {
 		}
 		return mensagem;
 	}
+	private String validarPlaca(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
+		String mensagem = "";
+		if(novo.getPlaca().trim().isEmpty()&& novo.getPlaca().trim().length() != QUANTIDADE_DIGITOS_PLACA && novo.getPlaca()!=null) {
+			mensagem +=("Informe uma placa valida com 7 digitos");
 
+			Pattern validaçãoplaca = Pattern.compile("^[A-Z]{3}[A-Z]{4}");
+			Matcher placaquasepronta = validaçãoplaca.matcher(novo.getPlaca());
 
-
+			if (!placaquasepronta.matches()) {
+				mensagem +=("favor informar a placa de maneira correta:  3 letras - 4 numeros ");
+				
+				throw new ErroAoSalvarVeiculoException(mensagem);
+			}
+		}
+		return mensagem;
+	}
 
 	public ArrayList<VeiculoVO>consulta(SeletorVeiculo selecionado){
 		return dao.consulta(selecionado);

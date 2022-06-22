@@ -277,7 +277,10 @@ public class MotoristaDAO {
 		
 		return motorista;
 	}
-	
+	public boolean motoristaIndisponivel(MotoristaVO motorista) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 }

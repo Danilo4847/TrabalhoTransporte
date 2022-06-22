@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import java.sql.Timestamp;
+
 import model.seletor.SeletorViagem;
 import model.vo.MaterialVO;
 import model.vo.MotoristaVO;
@@ -16,7 +18,38 @@ import model.vo.ViagemVO;
 
 public class ViagemDAO {
 
+	
+	public ViagemVO criarViagem(ViagemVO viagem) {
+		Connection conexao = Banco.getConnection();
+		String sql = " insert into viagem(idveiculo,idmotorista,idmaterial,regional,dataSaida,dataChegada)values(?,?,?,?,?,?)";
+				
 
+		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
+
+		try {
+			
+			stmt.setInt(1, viagem.getVeiculo().getIdVeiculo());
+			stmt.setInt(2, viagem.getMotorista().getIdMotorista());
+			stmt.setInt(3, viagem.getMaterial().getIdmaterial());
+			stmt.setString(4, viagem.getRegional());
+			stmt.setObject(6, viagem.getDataSaida());
+			stmt.setObject(5, viagem.getDataChegada());
+	
+			
+			stmt.execute();
+
+			ResultSet chavesGeradas = stmt.getGeneratedKeys();
+			if(chavesGeradas.next()) {
+				viagem.setIdviagem(chavesGeradas.getInt(1));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir viagem. Causa:" + e.getMessage());
+		}
+
+		return viagem;
+	}
+		
+/*
 	public ViagemVO criarViagem(ViagemVO viagem) {
 
 		Connection conexao = Banco.getConnection();
@@ -30,8 +63,8 @@ public class ViagemDAO {
 			stmt.setInt(2, viagem.getMotorista().getIdMotorista());
 			stmt.setInt(3, viagem.getMaterial().getIdmaterial());
 			stmt.setString(4, viagem.getRegional());
-			stmt.setInt(5, viagem.getDataSaida());
-			stmt.setInt(6, viagem.getDataChegada());
+			stmt.setObject(5, viagem.getDataSaida());
+			stmt.setObject(6, viagem.getDataChegada());
 
 			stmt.execute();
 
@@ -51,7 +84,7 @@ public class ViagemDAO {
 
 		return viagem;
 	}
-
+*/
 
 	public ArrayList<ViagemVO> consultaRegional() {
 
@@ -81,69 +114,116 @@ public class ViagemDAO {
 		return regionais;
 	}
 
-	public ArrayList<ViagemVO>consulta(SeletorViagem selecionado){
-		ArrayList<ViagemVO>viagens= new ArrayList<ViagemVO>();
-		String sql="select*from v";
+	public ArrayList<ViagemVO>consultaSeletor(SeletorViagem seletor){
 
-		Connection conexao= Banco.getConnection();
+		ArrayList<ViagemVO> viagens = new ArrayList<ViagemVO>();
 
+		String sql = "select viagem.dataChegada, viagem.dataSaida,viagem.regional,motorista.nome,veiculo.marca from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista inner join veiculo on veiculo.idveiculo=viagem.idveiculo v;";
 
-		if (selecionado.temFiltro()) {
-			sql=filtro(selecionado,sql);
+		Connection conexao = Banco.getConnection();
+
+		if(seletor.temFiltro()) {
+			sql=criarFiltro(seletor,sql);
 		}
-		PreparedStatement stmt=Banco.getPreparedStatement(conexao, sql);
+		PreparedStatement stmt =Banco.getPreparedStatement(conexao, sql);
+		try{
 
-		try {
-			ResultSet resultado=stmt.executeQuery();
-			while(resultado.next()) {
-				ViagemVO vo = new ViagemVO();
-				vo.setDataChegada(resultado.getInt(1));
-				vo.setDataSaida(resultado.getInt(2));
-				//	vo.setConteudo(resultado.getString(3));
-				//vo.setSetor(resultado.getString(4));
-				//	vo.setQuantidade(resultado.getInt(5));
+			ResultSet resultado = stmt.executeQuery();
 
-				viagens.add(vo);
+			while(resultado.next()){
+				ViagemVO viagem = new ViagemVO();
+
+
+				viagem.setRegional(resultado.getString(1));
+
+				Timestamp dataSaida=resultado.getTimestamp("dataSaida");
+				Timestamp dataChegada=resultado.getTimestamp("dataChegada");
+
+				if(dataSaida != null) {
+					viagem.setDataSaida(dataSaida.toLocalDateTime());
+				}
+				if(dataChegada != null) {
+					viagem.setDataChegada(dataChegada.toLocalDateTime());
+				}
+				
+				MotoristaVO motoristaVO = new MotoristaVO();
+
+				motoristaVO.setNome(resultado.getString(5));
+
+				viagem.setMotorista(motoristaVO);
+
+				VeiculoVO veiculo= new VeiculoVO();
+
+				veiculo.setModelo(resultado.getString(6));
+
+				viagem.setVeiculo(veiculo);
+
+
+
+				viagens.add(viagem);
+
 			}
 
+		}catch(SQLException excessao){
 
-		} catch (Exception e) {
 
 		}
-
 		return viagens;
 
 
 	}
 
 
-	private String filtro(SeletorViagem selecionado, String sql) {
 
-		sql+=" where ";
-		boolean primeiro =false;
+	public String criarFiltro(SeletorViagem seletor, String sql){
 
-		if(selecionado.getDataChegada()!=null) {
-			if(!primeiro) {
+		boolean primeiro=true;
+		sql=" where ";
+
+		if(seletor.getDataSaida()!=null){
+			if(!primeiro){
 				sql+=" and ";
 			}
-			sql+=" v.dataChegada= '"+selecionado.getDataChegada()+"'";
+			sql+=" v.dataSaida= '"+seletor.getDataSaida()+"'";
+			primeiro=false;
+
+		}
+		if(seletor.getDataChegada()!=null){
+			if(!primeiro){
+				sql+=" and ";
+			}
+			sql+=" v.dataChegada=' "+seletor.getDataChegada()+"'";
+			primeiro=false;
+
+		}
+		if(seletor.getMotorista()!=null && seletor.getMotorista().trim().length()>0){
+			if(!primeiro){
+
+				sql+=" and ";
+			}
+			sql+=" v.motorista.nome 'like"+seletor.getMotorista()+"like'";
 			primeiro=false;
 		}
-		if(selecionado.getDataSaida()!=null) {
-			if(!primeiro) {
+		if(seletor.getVeiculo()!=null && seletor.getVeiculo().trim().length()>0){
+			if(!primeiro){
 				sql+=" and ";
-			}
-			sql+=" v.dataSaida= '"+selecionado.getDataSaida()+"'";
-			primeiro=false;
-		}
-		if((selecionado.getMotorista()!=null)&&(selecionado.getMotorista().trim().length()>0)) {
-			if(!primeiro) {
-				sql+=" and ";
-			}
-			sql+=" v.moto ";
-		}
 
+			}
+			sql+=" .veiculo.modelo 'like"+seletor.getVeiculo()+"like'";
+			primeiro=false;
+
+			if(seletor.getRegional()!=null && seletor.getRegional().trim().length()>0)
+				if(!primeiro){
+					sql+=" and ";
+
+				}
+			sql+=" v.viagem.regional 'like+"+seletor.getRegional()+"like'";
+			primeiro=false;
+
+
+		}
 		return sql;
+
 	}
 
 
@@ -173,6 +253,34 @@ public class ViagemDAO {
 		}
 
 		return setor;
+	}
+	
+	public boolean atualizar(ViagemVO viagem) {
+		boolean atualizou = false;
+		Connection conexao = Banco.getConnection();
+		String sql = " UPDATE VEICULO "
+					+" SET  idmaterial=?,idveiculo=?,idmotorista=?,regional=?, dataSaida=?, dataChegada=?"
+					+" WHERE idviagem=? ";
+		
+		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
+		
+		try {
+			
+			stmt.setInt(1, viagem.getVeiculo().getIdVeiculo());
+			stmt.setInt(2, viagem.getMotorista().getIdMotorista());
+			stmt.setString(3, viagem.getRegional());
+			stmt.setInt(4, viagem.getMaterial().getIdmaterial());
+			stmt.setObject(5, viagem.getDataChegada());
+			stmt.setObject(6, viagem.getDataSaida());
+
+			
+			int linhasAfetadas = stmt.executeUpdate();
+			atualizou = linhasAfetadas > 0;
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar viagem. Causa:" + e.getMessage());
+		}
+		
+		return atualizou;
 	}
 
 }
