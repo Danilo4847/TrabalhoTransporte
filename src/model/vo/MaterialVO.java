@@ -32,6 +32,10 @@ public class MaterialVO {
 	public void setIdmaterial(int idmaterial) {
 		this.idmaterial = idmaterial;
 	}
+	@Override
+	public String toString() {
+		return this.conteudo;
+	}
 	
 	
 	

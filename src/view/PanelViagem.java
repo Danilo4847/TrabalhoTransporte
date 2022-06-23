@@ -59,9 +59,8 @@ public class PanelViagem extends JPanel {
 	private ArrayList<ViagemVO>regionais = new ArrayList<ViagemVO>();
 	private ViagemController viagemController = new ViagemController();
 	private ArrayList<MaterialVO>setor= new ArrayList<MaterialVO>();
-
+	private ArrayList<MaterialVO>materiasis = new ArrayList<MaterialVO>();
 	private JFrame frame = new JFrame();
-	private JTextField textMaterial;
 	private JTextField textQuantidade;
 	private JComboBox comboMotorista;
 	private JComboBox comboVeiculo;
@@ -73,6 +72,7 @@ public class PanelViagem extends JPanel {
 	private LocalTime horasaida;
 	private LocalDate datachegada;
 	private LocalTime horachegada;
+	private JComboBox comboMaterial;
 	/**
 	 * Create the panel.
 	 */
@@ -198,7 +198,7 @@ public class PanelViagem extends JPanel {
 		JLabel lblNewLabel_3 = new JLabel("Ve\u00EDculo");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(lblNewLabel_3, "2, 15");
-		
+
 		veiculos=veiculoController.consultaModelo();
 		comboVeiculo = new JComboBox(veiculos.toArray());
 		add(comboVeiculo, "2, 17, 3, 1, fill, default");
@@ -249,10 +249,9 @@ public class PanelViagem extends JPanel {
 		JLabel lblNewLabel_7 = new JLabel("Setor");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(lblNewLabel_7, "4, 32");
-
-		textMaterial = new JTextField();
-		add(textMaterial, "2, 34, fill, default");
-		textMaterial.setColumns(10);
+		materiasis=viagemController.consultaMaterial();
+		comboMaterial = new JComboBox(materiasis.toArray());
+		add(comboMaterial, "2, 34, fill, default");
 
 		textQuantidade = new JTextField();
 		add(textQuantidade, "3, 34, left, default");
@@ -287,12 +286,9 @@ public class PanelViagem extends JPanel {
 			comboVeiculo.addItem(v.getModelo());
 			comboVeiculo.setSelectedIndex(-1);
 		}
-		*/
-	
-		for(MotoristaVO m:motoristas) {
-			comboMotorista.addItem(m.imprimir());
-			comboMotorista.setSelectedIndex(-1);
-		}
+		 */
+
+
 		regionais=viagemController.consultaRegional();
 		for(ViagemVO v:regionais) {
 			comboRegional.addItem(v.getRegional());
@@ -309,7 +305,7 @@ public class PanelViagem extends JPanel {
 		ViagemVO viagem = new ViagemVO();
 		MaterialVO material = new MaterialVO();
 
-		material.setConteudo(textMaterial.getText());
+		//	material.setConteudo(textMaterial.getText());
 
 		try {
 			material.setQuantidade(Integer.parseInt(textQuantidade.getText()));			
@@ -325,7 +321,7 @@ public class PanelViagem extends JPanel {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 
 
 		//		String nomeMotorista=comboMotorista.toString();
@@ -338,21 +334,16 @@ public class PanelViagem extends JPanel {
 		MotoristaVO mvo= new MotoristaVO();
 
 		//String nomeMotorista=comboMotorista.toString();
-
-
-
+		viagem.setMaterial((MaterialVO)comboMaterial.getSelectedItem());
 		viagem.setMotorista((MotoristaVO)comboMotorista.getSelectedItem());
 		viagem.setVeiculo((VeiculoVO)comboVeiculo.getSelectedItem() );
 
-
-		viagem.setMaterial(material);
-		viagem.setRegional(comboRegional.toString());
+		viagem.setRegional(comboRegional.getSelectedItem().toString());
 		viagem.setDataSaida(dataHoraSaida);
 
 		viagem.setDataChegada(dataHoraChegada);
 
 		viagemController.salvar(viagem);
-
 	}
 }
 

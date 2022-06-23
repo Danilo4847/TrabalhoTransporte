@@ -2,6 +2,8 @@ package controller;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.bo.ViagemBO;
 import model.dao.ViagemDAO;
 import model.exception.ErroAoSalvarViagemException;
@@ -27,6 +29,7 @@ public class ViagemController {
 			}
 		if(mensagem.isEmpty()) {
 			mensagem = bo.salvar(novo);
+			JOptionPane.showMessageDialog(null, mensagem);
 		}
 
 		return mensagem;
@@ -60,7 +63,12 @@ public class ViagemController {
 	
 		return dao.consultaSeletor(seletor);
 	}
-	
+	public ArrayList<MaterialVO>consultaMaterial(){
+		return dao.consultaMaterial();
+	}
+	public ArrayList<ViagemVO>consultageral(){
+		return dao.consultaGeral();
+	}
 	
 
 }

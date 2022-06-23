@@ -19,6 +19,8 @@ public class VeiculoController {
 
 	private static final int QUANTIDADE_DIGITOS_RENAVAM = 9;
 	private static final int QUANTIDADE_DIGITOS_PLACA = 7;
+	private static final int QUANTIDADE_DIGITOS_modelo = 50;
+
 
 	private VeiculoDAO dao = new VeiculoDAO();
 	public VeiculoBO bo = new VeiculoBO();
@@ -45,7 +47,7 @@ public class VeiculoController {
 
 	private String validarModelo(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
 		String mensagem="";
-		if(novo.getModelo().trim() != null && novo.getModelo().length()>0){
+		if(novo.getModelo().trim() != null && novo.getModelo().length()>0 && novo.getModelo().length()<=QUANTIDADE_DIGITOS_modelo){
 
 		}else {
 			mensagem += "digite o modelo certo ";
@@ -57,7 +59,7 @@ public class VeiculoController {
 
 	private String validarMarca(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
 		String mensagem="";
-		if(novo.getMarca().trim() != null && novo.getMarca().length()>0){
+		if(novo.getMarca().trim() != null && novo.getMarca().length()>0&& novo.getMarca().length()<=QUANTIDADE_DIGITOS_modelo){
 
 		}else {
 			mensagem += "digite a marca certo ";

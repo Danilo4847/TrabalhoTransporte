@@ -35,7 +35,6 @@ public class ViagemDAO {
 			stmt.setObject(6, viagem.getDataSaida());
 			stmt.setObject(5, viagem.getDataChegada());
 	
-			
 			stmt.execute();
 
 			ResultSet chavesGeradas = stmt.getGeneratedKeys();
@@ -118,8 +117,7 @@ public class ViagemDAO {
 
 		ArrayList<ViagemVO> viagens = new ArrayList<ViagemVO>();
 
-		String sql = "select * from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista"
-				+ " inner join veiculo on veiculo.idveiculo=viagem.idveiculo";
+		String sql = "select * from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista inner join veiculo on veiculo.idveiculo=viagem.idveiculo";
 
 		Connection conexao = Banco.getConnection();
 
@@ -175,7 +173,7 @@ public class ViagemDAO {
 			if(!primeiro){
 				sql+=" and ";
 			}
-			sql+=" v.dataSaida= '"+seletor.getDataSaida()+"'";
+			sql+=" dataSaida= '"+seletor.getDataSaida()+"'";
 			primeiro=false;
 
 		}
@@ -183,7 +181,7 @@ public class ViagemDAO {
 			if(!primeiro){
 				sql+=" and ";
 			}
-			sql+=" v.dataChegada=' "+seletor.getDataChegada()+"'";
+			sql+=" dataChegada=' "+seletor.getDataChegada()+"'";
 			primeiro=false;
 
 		}
@@ -192,7 +190,7 @@ public class ViagemDAO {
 
 				sql+=" and ";
 			}
-			sql+=" v.motorista.nome 'like"+seletor.getMotorista()+"like'";
+			sql+=" motorista.nome 'like"+seletor.getMotorista()+"like'";
 			primeiro=false;
 		}
 		if(seletor.getVeiculo()!=null && seletor.getVeiculo().trim().length()>0){
@@ -200,7 +198,7 @@ public class ViagemDAO {
 				sql+=" and ";
 
 			}
-			sql+=" v.veiculo.modelo 'like"+seletor.getVeiculo()+"like'";
+			sql+=" veiculo.modelo 'like"+seletor.getVeiculo()+"like'";
 			primeiro=false;
 
 			if(seletor.getRegional()!=null && seletor.getRegional().trim().length()>0)
@@ -208,7 +206,7 @@ public class ViagemDAO {
 					sql+=" and ";
 
 				}
-			sql+=" v.viagem.regional 'like+"+seletor.getRegional()+"like'";
+			sql+=" viagem.regional 'like+"+seletor.getRegional()+"like'";
 			primeiro=false;
 
 
@@ -273,5 +271,84 @@ public class ViagemDAO {
 		
 		return atualizou;
 	}
+	public ArrayList<MaterialVO> consultaMaterial() {
+
+		ArrayList<MaterialVO> materiais = new ArrayList<MaterialVO>();
+
+		Connection conexao = Banco.getConnection();
+		String sql = "SELECT idmaterial,conteudo,quantidade,setor FROM material ;";
+
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+
+
+		try {
+			ResultSet resultado = stmt.executeQuery();
+
+			while(resultado.next()) {
+				MaterialVO vo = new MaterialVO();
+
+				vo.setIdmaterial(resultado.getInt(1));
+				vo.setConteudo(resultado.getString(2));
+				vo.setQuantidade(resultado.getInt(3));
+				vo.setSetor(resultado.getString(4));
+				materiais.add(vo);
+			}
+
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+
+		return materiais;
+	}
+
+	public ArrayList<ViagemVO>consultaGeral(){
+
+		ArrayList<ViagemVO> viagens = new ArrayList<ViagemVO>();
+
+		String sql = "select * from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista inner join veiculo on veiculo.idveiculo=viagem.idveiculo";
+
+		Connection conexao = Banco.getConnection();
+
+	
+		PreparedStatement stmt =Banco.getPreparedStatement(conexao, sql);
+		try{
+
+			ResultSet resultado = stmt.executeQuery();
+
+			while(resultado.next()){
+				ViagemVO viagem = new ViagemVO();
+				MotoristaVO motoristaVO = new MotoristaVO();
+				VeiculoVO veiculo= new VeiculoVO();
+
+
+
+				viagem.setRegional(resultado.getString("regional"));
+				Timestamp dataSaida=resultado.getTimestamp("dataSaida");
+				Timestamp dataChegada=resultado.getTimestamp("dataChegada");
+
+				if(dataSaida != null) {
+					viagem.setDataSaida(dataSaida.toLocalDateTime());
+				}
+				if(dataChegada != null) {
+					viagem.setDataChegada(dataChegada.toLocalDateTime());
+				}
+				motoristaVO.setNome(resultado.getString("nome"));
+				viagem.setMotorista(motoristaVO);
+				veiculo.setModelo(resultado.getString("modelo"));
+				viagem.setVeiculo(veiculo);
+				viagens.add(viagem);
+			}
+
+		}catch(SQLException excessao){
+
+			JOptionPane.showMessageDialog(null, excessao.getMessage());
+		}
+		return viagens;
+
+
+	}
+
+
 
 }

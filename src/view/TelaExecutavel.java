@@ -6,17 +6,23 @@ import javax.swing.JFrame;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import controller.ViagemController;
+import model.vo.ViagemVO;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -36,6 +42,8 @@ public class TelaExecutavel extends JFrame{
 	private JFrame frame;
 	private JTable table;
 	private JPanel contenPane;
+	private ArrayList<ViagemVO>viagens=new ArrayList<ViagemVO>();
+	private ViagemController viagemController= new ViagemController();
 	/**
 	 * Launch the application.
 	 */
@@ -125,7 +133,7 @@ public class TelaExecutavel extends JFrame{
 		
 		table = new JTable();
 		frame.getContentPane().add(table, "4, 13, 11, 14, fill, fill");
-		
+		atualizarTabela();
 		JButton btnAtualizar = new JButton("<<");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -251,5 +259,26 @@ public class TelaExecutavel extends JFrame{
 		});
 	
 
+	}
+	protected void atualizarTabela() {
+
+		viagens=viagemController.consultageral();
+		
+		table.setModel(new DefaultTableModel(new String[][] { 
+			{ "data saida","data chegada","Nome motorista","Modelo veiculo" }, },
+			new String[] { "data saida","data chegada","Nome motorista","Modelo veiculo"}));
+		
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		
+		for(ViagemVO viagem: viagens) {
+			String[] novaLinha = new String[] {
+		viagem.getDataSaida()+"",
+		viagem.getDataChegada()+"",
+		viagem.getMotorista().getNome(),
+		viagem.getVeiculo().getModelo()
+			};
+			
+			modelo.addRow(novaLinha);
+		}
 	}
 }
