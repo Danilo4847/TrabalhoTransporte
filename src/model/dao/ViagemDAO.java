@@ -118,7 +118,8 @@ public class ViagemDAO {
 
 		ArrayList<ViagemVO> viagens = new ArrayList<ViagemVO>();
 
-		String sql = "select viagem.dataChegada, viagem.dataSaida,viagem.regional,motorista.nome,veiculo.marca from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista inner join veiculo on veiculo.idveiculo=viagem.idveiculo v;";
+		String sql = "select * from viagem inner join motorista on motorista.idmotorista=viagem.idmotorista"
+				+ " inner join veiculo on veiculo.idveiculo=viagem.idveiculo";
 
 		Connection conexao = Banco.getConnection();
 
@@ -132,10 +133,12 @@ public class ViagemDAO {
 
 			while(resultado.next()){
 				ViagemVO viagem = new ViagemVO();
+				MotoristaVO motoristaVO = new MotoristaVO();
+				VeiculoVO veiculo= new VeiculoVO();
 
 
-				viagem.setRegional(resultado.getString(1));
 
+				viagem.setRegional(resultado.getString("regional"));
 				Timestamp dataSaida=resultado.getTimestamp("dataSaida");
 				Timestamp dataChegada=resultado.getTimestamp("dataChegada");
 
@@ -145,28 +148,16 @@ public class ViagemDAO {
 				if(dataChegada != null) {
 					viagem.setDataChegada(dataChegada.toLocalDateTime());
 				}
-				
-				MotoristaVO motoristaVO = new MotoristaVO();
-
-				motoristaVO.setNome(resultado.getString(5));
-
+				motoristaVO.setNome(resultado.getString("nome"));
 				viagem.setMotorista(motoristaVO);
-
-				VeiculoVO veiculo= new VeiculoVO();
-
-				veiculo.setModelo(resultado.getString(6));
-
+				veiculo.setModelo(resultado.getString("modelo"));
 				viagem.setVeiculo(veiculo);
-
-
-
 				viagens.add(viagem);
-
 			}
 
 		}catch(SQLException excessao){
 
-
+			JOptionPane.showMessageDialog(null, excessao.getMessage());
 		}
 		return viagens;
 
@@ -209,7 +200,7 @@ public class ViagemDAO {
 				sql+=" and ";
 
 			}
-			sql+=" .veiculo.modelo 'like"+seletor.getVeiculo()+"like'";
+			sql+=" v.veiculo.modelo 'like"+seletor.getVeiculo()+"like'";
 			primeiro=false;
 
 			if(seletor.getRegional()!=null && seletor.getRegional().trim().length()>0)

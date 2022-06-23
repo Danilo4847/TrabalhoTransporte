@@ -5,16 +5,28 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import controller.ViagemController;
+import model.seletor.SeletorViagem;
+
+import model.vo.GeradorPlanilhaViagem;
+import model.vo.ViagemVO;
+
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -29,6 +41,9 @@ public class PanelConsultaViagem extends JPanel {
 	private JTextField textMotorista;
 	private JTextField textVeiculo;
 	private JTextField textRegional;
+	private ArrayList<ViagemVO>viagens=new ArrayList<ViagemVO>();
+	private ViagemController viagemController= new ViagemController();
+	private SeletorViagem seletor = new SeletorViagem();
 
 	/**
 	 * Create the panel.
@@ -138,14 +153,36 @@ public class PanelConsultaViagem extends JPanel {
 		JButton btnNewButton_2 = new JButton("PESQUISAR");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				
+			seletor.setDataChegada(null);
+			seletor.setDataSaida(null);
+			seletor.setMotorista(textMotorista.getText());
+		//	seletor.setRegional(textRegional.getText());
+			seletor.setVeiculo(textVeiculo.getText());
+				atualizarTabela();
 			}
 		});
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(btnNewButton_2, "10, 20");
 		
 		JButton btnNewButton_1 = new JButton("IMPRIMIR");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				JFileChooser janela = new JFileChooser();
+				int selecionado = janela.showSaveDialog(null);
+				if(selecionado==JFileChooser.APPROVE_OPTION) {
+					String caminho=janela.getSelectedFile().getAbsolutePath();
+					GeradorPlanilhaViagem planilha = new GeradorPlanilhaViagem();
+					
+					String mensagem =planilha.geradorPlanilha(caminho, viagens);
+					
+					JOptionPane.showMessageDialog(null, mensagem);
+					
+				}
+				
+			}
+		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(btnNewButton_1, "14, 20, default, fill");
 
@@ -154,5 +191,26 @@ public class PanelConsultaViagem extends JPanel {
 
 	}
 
+protected void atualizarTabela() {
+
+		viagens=viagemController.consulta(seletor);
+		
+		table.setModel(new DefaultTableModel(new String[][] { 
+			{ "data saida","data chegada","Nome motorista","Modelo veiculo" }, },
+			new String[] { "data saida","data chegada","Nome motorista","Modelo veiculo"}));
+		
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		
+		for(ViagemVO viagem: viagens) {
+			String[] novaLinha = new String[] {
+		viagem.getDataSaida()+"",
+		viagem.getDataChegada()+"",
+		viagem.getMotorista().getNome(),
+		viagem.getVeiculo().getModelo()
+			};
+			
+			modelo.addRow(novaLinha);
+		}
+	}
 
 }

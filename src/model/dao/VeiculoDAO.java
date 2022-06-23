@@ -73,7 +73,7 @@ public class VeiculoDAO {
 		
 		Connection conexao = Banco.getConnection();
 		String sql = " DELETE FROM VEICULO "
-					+" WHERE ID=?";
+					+" WHERE IDveiculo=?";
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
 		
 		try {
@@ -152,13 +152,12 @@ public class VeiculoDAO {
  			ResultSet resultado=stmt.executeQuery();
 			while(resultado.next()) {
 				VeiculoVO vo = new VeiculoVO();
-				vo.setAno(resultado.getInt(1));
-				vo.setMarca(resultado.getString(2));
-				vo.setModelo(resultado.getString(3));
-				vo.setPlaca(resultado.getString(4));
-				vo.setRenavam(resultado.getString(5));
-				vo.setStatus(resultado.getBoolean(6));
-				
+				vo.setAno(resultado.getInt("ano"));
+				vo.setMarca(resultado.getString("marca"));
+				vo.setModelo(resultado.getString("modelo"));
+				vo.setPlaca(resultado.getString("placa"));
+				vo.setRenavam(resultado.getString("renavam"));
+				vo.setIdVeiculo(resultado.getInt("idveiculo"));
 				
 				veiculos.add(vo);
 			}

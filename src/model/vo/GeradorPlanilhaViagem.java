@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -42,13 +42,12 @@ public class GeradorPlanilhaViagem {
 
 		XSSFRow linhaAtual = planilha.createRow(posicao);
 
-		linhaAtual.createCell(0).setCellVAlue(v.getDataChegada);
-		linhaAtual.createCell(1).setCellVAlue(v.getDataSaida);
-		linhaAtual.createCell(2).setCellVAlue(v.getQuantidade);
-		linhaAtual.createCell(3).setCellVAlue(v.getMaterial);
-		linhaAtual.createCell(4).setCellVAlue(v.getRegional);
-		linhaAtual.createCell(5).setCellVAlue(v.getIdMotorista);
-		linhaAtual.createCell(6).setCellVAlue(v.getIdveiculo);
+	
+		linhaAtual.createCell(1).setCellValue(v.getMaterial().getConteudo());
+		linhaAtual.createCell(2).setCellValue(v.getMaterial().getQuantidade());
+		linhaAtual.createCell(3).setCellValue(v.getRegional());
+		linhaAtual.createCell(4).setCellValue(v.getMotorista().getIdMotorista());
+		linhaAtual.createCell(5).setCellValue(v.getVeiculo().getIdVeiculo());
 
 
 		posicao++;
@@ -59,12 +58,12 @@ public class GeradorPlanilhaViagem {
 		}
 		private void criarCabecalho(String[] celulas, XSSFSheet planilha, int posicao){
 
-		row linhaAtual = planilha.createRow(posicao);
+		XSSFRow linhaAtual = planilha.createRow(posicao);
 
 		for(int i = 0;i<celulas.length;i++){
 
-		cell novaCell = linhaAtual.createCell(i);
-		novaCell.setCellVAlue(celulas[i]);
+		Cell novaCell = linhaAtual.createCell(i);
+		novaCell.setCellValue(celulas[i]);
 
 		}
 

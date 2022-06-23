@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Color;
@@ -119,6 +120,17 @@ public class PanelConsultaMotorista extends JPanel {
 		add(lblErro, "2, 21, 9, 1, center, center");
 		
 		JButton btnNewButton = new JButton("EXCLUIR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			MotoristaVO motoristaSelecionado = new MotoristaVO();
+				int indiceSelecionado = table.getSelectedRow();
+				motoristaSelecionado = motoristas.get(indiceSelecionado - 1);
+				
+			
+				motoristaController.excluirMotorista(motoristaSelecionado.getIdMotorista());
+				JOptionPane.showMessageDialog(btnNewButton, motoristaSelecionado.getIdMotorista());
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(btnNewButton, "4, 22, 1, 5, fill, center");
 		
@@ -147,17 +159,17 @@ public class PanelConsultaMotorista extends JPanel {
 		motoristas=motoristaController.consulta(seletor);
 		
 		table.setModel(new DefaultTableModel(new String[][] { 
-			{ "Categoria","CNH","Nome","ID" }, },
-			new String[] { "Categoria","CNH","Nome","ID"}));
+			{ "id","CNH","Nome","categoria" }, },
+			new String[] { "id","CNH","Nome","categoria"}));
 		
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		
 		for(MotoristaVO motorista: motoristas) {
 			String[] novaLinha = new String[] {
-				motorista.getCategoriaCarteira(),
+					motorista.getIdMotorista()+"",
 				motorista.getCnh(),
 				motorista.getNome(),
-				motorista.getIdMotorista()+""
+				motorista.getCategoriaCarteira()
 			};
 			
 			modelo.addRow(novaLinha);

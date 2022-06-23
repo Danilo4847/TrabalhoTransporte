@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelConsultaVeiculo extends JPanel {
 	private JTable table;
@@ -36,7 +38,7 @@ public class PanelConsultaVeiculo extends JPanel {
 	private List<VeiculoVO> veiculos = new ArrayList<VeiculoVO>();
 	SeletorVeiculo selecionado = new SeletorVeiculo();
 	private JButton btnConsultar;
-
+	private VeiculoVO veiculoSelecionado = new VeiculoVO();
 	/**
 	 * Create the panel.
 	 */
@@ -118,13 +120,32 @@ public class PanelConsultaVeiculo extends JPanel {
 		textMarca = new JTextField();
 		add(textMarca, "16, 11, 3, 2, fill, center");
 		textMarca.setColumns(10);
+	
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				veiculoSelecionado = new VeiculoVO();
+				int indiceSelecionado = table.getSelectedRow();
+				veiculoSelecionado =veiculos.get(indiceSelecionado - 1);
+				
+				
+			}
+		});
 		add(table, "3, 14, 16, 3, fill, fill");
 		veiculos=veiculoController.consulta(selecionado);
 		atualizarTabela();
 
 		JButton btnNewButton = new JButton("EXCLUIR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(btnNewButton, veiculoSelecionado.getIdVeiculo());
+			veiculoController.excluirVeiculo(veiculoSelecionado.getIdVeiculo());
+			}
+		});
 		add(btnNewButton, "4, 19, 3, 2, fill, center");
 		
 		btnConsultar = new JButton("CONSULTAR");
@@ -147,8 +168,8 @@ public class PanelConsultaVeiculo extends JPanel {
 		veiculos=veiculoController.consulta(selecionado);
 		
 		table.setModel(new DefaultTableModel(new String[][] { 
-			{ "Renavam","ano","marca","modelo","status","placa" }, },
-			new String[] {"Renavam","ano","marca","modelo","status","placa"}));
+			{"Renavam","ano","marca","modelo","placa","idveiculo" }, },
+			new String[] {"Renavam","ano","marca","modelo","placa","idveiculo"}));
 		
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		
@@ -158,8 +179,8 @@ public class PanelConsultaVeiculo extends JPanel {
 				veiculo.getAno()+"",
 				veiculo.getMarca(),
 				veiculo.getModelo(),
-				veiculo.isStatus()+"",
-				veiculo.getPlaca()
+				veiculo.getPlaca(),
+				veiculo.getIdVeiculo()+""
 				
 			};
 			

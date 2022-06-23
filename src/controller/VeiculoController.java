@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import model.bo.VeiculoBO;
 
 import model.dao.VeiculoDAO;
+import model.dao.ViagemDAO;
 import model.exception.ErroAoSalvarVeiculoException;
 import model.seletor.SeletorVeiculo;
 import model.vo.VeiculoVO;
@@ -125,5 +126,24 @@ public class VeiculoController {
 	public VeiculoVO veiculo(int id) {
 		return dao.consulta(id);	
 	}
+	
+	public String excluirVeiculo(int id){
+
+		String mensagem="";
+		ViagemDAO viagem = new ViagemDAO();
+		VeiculoDAO veiculo = new VeiculoDAO();
+/*
+		viagem.consultaPorIdVeiculo(id);
+
+		if(viagem!=null){
+
+		mensagem="Não é permitido excluir veiculo que ja efetuou uma viagem";
+		}else{
+		
+		}
+		*/
+		veiculo.removerVeiculo(id);
+		return mensagem;	
+		}
 
 }

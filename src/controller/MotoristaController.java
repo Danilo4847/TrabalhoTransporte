@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.bo.MotoristaBO;
 import model.dao.MotoristaDAO;
+import model.dao.ViagemDAO;
 import model.exception.ErroAoSalvarMotoristaException;
 import model.exception.ErroAoSalvarVeiculoException;
 import model.seletor.SeletorMotorista;
@@ -83,4 +84,27 @@ public class MotoristaController {
 	public MotoristaVO motorista(int id) {
 		return dao.consultar(id);
 	}
+	
+	public String excluirMotorista(int id){
+
+		String mensagem="";
+		ViagemDAO viagem = new ViagemDAO();
+		MotoristaDAO mDAO= new MotoristaDAO();
+/*
+		viagem=dao.consultaComIdMotorista(id);
+
+		if(viagem!=null){
+
+		mensagem=" não é permitido excluir veiculo que ja efetuou uma viagem";
+
+		}else{
+		}
+*/
+		mDAO.excluirMotorista(id);
+		return mensagem;
+
+		}
+
+
+	
 }

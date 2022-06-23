@@ -64,13 +64,13 @@ public class MotoristaDAO {
 		boolean excluir =false;
 		
 		Connection conexao = Banco.getConnection();
-		String sql = " DELETE FROM MOTORISTA "
+		String sql = " DELETE  FROM MOTORISTA "
 					+" WHERE IDMOTORISTA=?";
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
 		
 		try {
 			stmt.setInt(1, idMotorista);
-			excluir = stmt.executeUpdate() > 0;
+			excluir = stmt.executeUpdate()>0;
 		} catch (SQLException e) {
 			System.out.println("Erro ao remover motorista. Causa:" + e.getMessage());
 		}		
@@ -198,7 +198,7 @@ public class MotoristaDAO {
 		ArrayList<MotoristaVO> motoristas = new ArrayList<MotoristaVO>();
 		
 		Connection conexao = Banco.getConnection();
-		String sql = "SELECT nome FROM  motorista  where categoria_carteira is not null;";
+		String sql = "SELECT nome,categoria_Carteira,idmotorista,status FROM  motorista  where categoria_carteira is not null;";
 					
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		
@@ -210,6 +210,9 @@ public class MotoristaDAO {
 				MotoristaVO vo = new MotoristaVO();
 				
 				vo.setNome(resultado.getString(1));
+				vo.setCategoriaCarteira(resultado.getString(2));
+				vo.setIdMotorista(resultado.getInt(3));
+				vo.setStatus(resultado.getBoolean(4));
 				motoristas.add(vo);
 			}
 

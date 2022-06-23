@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.bo.ViagemBO;
 import model.dao.ViagemDAO;
 import model.exception.ErroAoSalvarViagemException;
+import model.seletor.SeletorViagem;
 import model.vo.MaterialVO;
 import model.vo.ViagemVO;
 
@@ -53,6 +54,11 @@ public class ViagemController {
 	}
 	public ArrayList<MaterialVO>setor() {
 		return dao.consultaSetor();
+	}
+
+	public ArrayList<ViagemVO> consulta(SeletorViagem seletor) {
+	
+		return dao.consultaSeletor(seletor);
 	}
 	
 	
