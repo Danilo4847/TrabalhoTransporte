@@ -73,13 +73,16 @@ public class PanelViagem extends JPanel {
 	private LocalDate datachegada;
 	private LocalTime horachegada;
 	private JComboBox comboMaterial;
+	private JLabel lblERRO;
+	private MaterialVO material;
+
 	/**
 	 * Create the panel.
 	 */
 	public PanelViagem(ViagemVO viagem) {
 		frame.getContentPane().setBackground(new Color(119, 136, 153));
 
-		setBackground(new Color(119, 136, 153));
+		setBackground(new Color(51, 102, 102));
 		FormLayout formLayout = new FormLayout(new ColumnSpec[] {
 				FormSpecs.GROWING_BUTTON_COLSPEC,
 				FormSpecs.GROWING_BUTTON_COLSPEC,
@@ -135,13 +138,13 @@ public class PanelViagem extends JPanel {
 				ColumnSpec.decode("239px:grow"),
 				FormSpecs.GROWING_BUTTON_COLSPEC,},
 				new RowSpec[] {
-						RowSpec.decode("30px"),
-						FormSpecs.PARAGRAPH_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
+						RowSpec.decode("30px:grow"),
+						RowSpec.decode("9dlu:grow"),
+						RowSpec.decode("default:grow"),
 						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
+						RowSpec.decode("default:grow"),
 						FormSpecs.RELATED_GAP_ROWSPEC,
-						FormSpecs.DEFAULT_ROWSPEC,
+						RowSpec.decode("default:grow"),
 						FormSpecs.RELATED_GAP_ROWSPEC,
 						FormSpecs.DEFAULT_ROWSPEC,
 						FormSpecs.RELATED_GAP_ROWSPEC,
@@ -181,7 +184,7 @@ public class PanelViagem extends JPanel {
 
 		JLabel lblNewLabel_9 = new JLabel("New label");
 		lblNewLabel_9.setIcon(new ImageIcon(PanelViagem.class.getResource("/icon/floresta.jpg")));
-		add(lblNewLabel_9, "1, 1, 5, 8");
+		add(lblNewLabel_9, "1, 1, 5, 6");
 
 		JLabel lblNewLabel_8 = new JLabel("CRIAR VIAGEM");
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -222,16 +225,12 @@ public class PanelViagem extends JPanel {
 		final DateTimePicker dataSaida = new DateTimePicker();
 		add(dataSaida, "2, 24, fill, center");
 
-		datasaida=dataSaida.getDatePicker().getDate();
-		horasaida=dataSaida.getTimePicker().getTime();
-
-
 
 		final DateTimePicker dataChegada = new DateTimePicker();
 		add(dataChegada, "4, 24, fill, center");
 
-		datachegada=dataSaida.getDatePicker().getDate();
-		horachegada=dataSaida.getTimePicker().getTime();
+		lblERRO = new JLabel("");
+		add(lblERRO, "2, 26, 3, 1");
 
 
 		JSeparator separator = new JSeparator();
@@ -260,34 +259,56 @@ public class PanelViagem extends JPanel {
 		comboSetor = new JComboBox();
 		add(comboSetor, "4, 34, fill, default");
 
-		JButton btnNewButton = new JButton("SALVAR");
+		JButton btnNewButton = new JButton("CRIAR");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-					salvar();
-				} catch (ErroAoSalvarViagemException e1) {
-					//JOptionPane.showMessageDialog(btnNewButton, "ERRO FATAL. O SEU COMPUTADOR VAI EXPLODIR EM 5..4...3...2...1.................PEGADINHA");
-					e1.printStackTrace();
-				}
+				datasaida=dataSaida.getDatePicker().getDate();
+				horasaida=dataSaida.getTimePicker().getTime();
+
+
+				datachegada=dataSaida.getDatePicker().getDate();
+				horachegada=dataSaida.getTimePicker().getTime();
+
+
+				salvar();
+
 
 			}
 		});
 
 		JButton btnNewButton_2 = new JButton("+");
+		btnNewButton_2.addActionListener(new ActionListener() {
+
+
+			public void actionPerformed(ActionEvent e) {
+				material = new MaterialVO();
+				material.setConteudo(comboMaterial.getSelectedItem().toString());
+				try {
+					
+					material.setQuantidade(Integer.parseInt(textQuantidade.getText()));
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+				material.setSetor(comboSetor.getSelectedItem().toString());
+				viagemController.criarMaterial(material);
+				
+			
+			}
+		});
 		add(btnNewButton_2, "5, 34, left, default");
-		add(btnNewButton, "2, 38");
+		add(btnNewButton, "2, 38, center, fill");
 
-		JButton btnNewButton_1 = new JButton("CRIAR");
-		add(btnNewButton_1, "4, 38");
-
-		/*
-		for(VeiculoVO v:veiculos) {
-			comboVeiculo.addItem(v.getModelo());
-			comboVeiculo.setSelectedIndex(-1);
-		}
-		 */
-
+		JButton btnNewButton_1 = new JButton("ALTERAR");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+				viagemController.atualizar(viagem);
+				
+			}
+		});
+		add(btnNewButton_1, "4, 38, center, fill");
 
 		regionais=viagemController.consultaRegional();
 		for(ViagemVO v:regionais) {
@@ -300,50 +321,44 @@ public class PanelViagem extends JPanel {
 
 
 	}
-	protected void salvar() throws ErroAoSalvarViagemException {
+	protected void salvar() {
 
 		ViagemVO viagem = new ViagemVO();
-		MaterialVO material = new MaterialVO();
+	
+		String mensagem="";
 
-		//	material.setConteudo(textMaterial.getText());
-
-		try {
-			material.setQuantidade(Integer.parseInt(textQuantidade.getText()));			
-		} catch (NumberFormatException e) {
-
-		}
-
-		material.setSetor(comboSetor.toString());
 
 		try {
 			dataHoraChegada=LocalDateTime.of(datachegada, horachegada);
 			dataHoraSaida=LocalDateTime.of(datasaida, horasaida);
 		} catch (Exception e) {
-			// TODO: handle exception
+
 		}
+try {
+	viagem.setMaterial(viagemController.criarMaterial(material));
+	
+} catch (Exception e) {
+	// TODO: handle exception
+}
 
-
-
-		//		String nomeMotorista=comboMotorista.toString();
-
-		/*
-		viagem.setVeiculo(veiculo);
-		viagem.setMotorista(motorista);
-		 */
-		MotoristaDAO mdao= new MotoristaDAO();
-		MotoristaVO mvo= new MotoristaVO();
-
-		//String nomeMotorista=comboMotorista.toString();
-		viagem.setMaterial((MaterialVO)comboMaterial.getSelectedItem());
 		viagem.setMotorista((MotoristaVO)comboMotorista.getSelectedItem());
 		viagem.setVeiculo((VeiculoVO)comboVeiculo.getSelectedItem() );
 
 		viagem.setRegional(comboRegional.getSelectedItem().toString());
-		viagem.setDataSaida(dataHoraSaida);
 
+		viagem.setDataSaida(dataHoraSaida);
 		viagem.setDataChegada(dataHoraChegada);
 
-		viagemController.salvar(viagem);
+		try {
+			mensagem = viagemController.salvar(viagem);
+			lblERRO.setText(mensagem);
+			lblERRO.setForeground(new Color(0,255,0));
+		} catch (ErroAoSalvarViagemException e) {
+			JOptionPane.showMessageDialog(null, mensagem+"erro ao salvar");
+			lblERRO.setText(mensagem);
+
+		}
+
 	}
 }
 

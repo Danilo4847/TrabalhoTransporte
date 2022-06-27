@@ -34,17 +34,18 @@ public class PanelMotorista extends JPanel {
 	private MotoristaVO motorista= new MotoristaVO();
 	private MotoristaController motoristaController = new MotoristaController();
 	private JComboBox     CBcategoriaCarteira;
-	private ArrayList<MotoristaVO> categorias= new ArrayList<MotoristaVO>();
+	private JLabel lblErro;
+	//private ArrayList<MotoristaVO> categorias= new ArrayList<MotoristaVO>();
 	/**
 	 * Create the panel.
 	 */
 	public PanelMotorista(MotoristaVO motorista) {
-		setBackground(new Color(112, 128, 144));
+		setBackground(new Color(0, 102, 102));
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
-		setLayout(new MigLayout("", "[200px][100px,grow][4px][200px]", "[][24.00px][54.00px][20px][20px][23.00px][16.00][][][][][][][][][-78.00][][][]"));
+		setLayout(new MigLayout("", "[200px][100px,grow][4px][200px]", "[][24.00px][54.00px][20px][20px][23.00px][16.00][][][][][][][][][][-78.00][][][]"));
 		
 				
 				JLabel lblNewLabel_3 = new JLabel("INSERIR MOTORISTA");
@@ -77,17 +78,31 @@ public class PanelMotorista extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				salvar();
-				limparCampos();
+				
 			}
 		});
 		
-		categorias=motoristaController.consultaCategoria();
-	    CBcategoriaCarteira = new JComboBox(categorias.toArray());
+	//	categorias=motoristaController.consultaCategoria();
+	    CBcategoriaCarteira = new JComboBox();
 		add(CBcategoriaCarteira, "cell 1 8,growx");
+		
+		CBcategoriaCarteira.addItem("A");
+		CBcategoriaCarteira.addItem("B");
+		CBcategoriaCarteira.addItem("C");
+		CBcategoriaCarteira.addItem("D");
+		CBcategoriaCarteira.addItem("AB");
+		CBcategoriaCarteira.addItem("AC");
+		CBcategoriaCarteira.addItem("AD");
+		
+		lblErro = new JLabel("");
+	
+		lblErro.setBackground(new Color(204, 0, 0));
+		add(lblErro, "cell 1 13,alignx center,growy");
+		
 		btnEnter.setForeground(new Color(112, 128, 144));
 		btnEnter.setBackground(new Color(255, 255, 255));
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 12));
-		add(btnEnter, "cell 1 15 1 3,alignx center,growy");
+		add(btnEnter, "cell 1 16 1 3,alignx center,growy");
 
 	}
 
@@ -108,11 +123,15 @@ public class PanelMotorista extends JPanel {
 		String mensagem;
 		try {
 		mensagem = motoristaController.salvar(motorista);
-		JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
+		lblErro.setForeground(new Color(0, 255, 0));
+		lblErro.setText(mensagem);
+	//	JOptionPane.showMessageDialog(null, mensagem,"Mensagem", JOptionPane.INFORMATION_MESSAGE);
 		limparCampos();
 		} catch (ErroAoSalvarMotoristaException e) {
-		JOptionPane.showMessageDialog(null, e.getMessage(),
-		"Atenção", JOptionPane.WARNING_MESSAGE);
+			lblErro.setForeground(new Color(255, 0, 0));
+			lblErro.setText(e.getMessage());
+	/*	JOptionPane.showMessageDialog(null, e.getMessage(),
+		"Atenção", JOptionPane.WARNING_MESSAGE);*/
 		}
 		}
 	

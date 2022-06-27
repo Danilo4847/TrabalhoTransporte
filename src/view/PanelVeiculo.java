@@ -1,8 +1,10 @@
 package view;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.text.MaskFormatter;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 
@@ -15,30 +17,42 @@ import model.exception.ErroAoSalvarVeiculoException;
 import model.vo.VeiculoVO;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 
 public class PanelVeiculo extends JPanel {
 	private JTextField textModelo;
-	private JTextField textMarca;
-	private JTextField textPlaca;
+	private JFormattedTextField textPlaca;
 	private JTextField textRenavam;
 	private VeiculoVO veiculo = new VeiculoVO();
 	private VeiculoController veiculoController = new VeiculoController();
 	private JTextField textAno;
+	private JTextArea textAreaValoresCamposComMascara;
 	private JLabel lblErro;
+	private String marcas[]= {"FIAT","GOL","BMW","AUDI","CITROEN","BENTLY","FERRARI","FORD"
+			,"HONDA","JEEP","JAGUAR","HYUNDAI","KIA","LAMBORGHINI","LAND ROVER","LEXUS","MASERATI"
+			,"MERCEDES-BENZ","NISSAN","PEUGEOT","MINI","RENAULT","VOLVO","VW","TOYOTA"};
+
 	JFrame frame;
+	private JComboBox comboBox;
+	private String placaCompleta;
 	/**
 	 * Create the panel.
 	 */
 	public PanelVeiculo(VeiculoVO veiculo) {
-		setBackground(new Color(112, 128, 144));
-		setLayout(new MigLayout("", "[][grow][]", "[][][][][][][][][][][][][][][][][][][53.00]"));
+		setBackground(new Color(0, 102, 102));
+		setLayout(new MigLayout("", "[][grow][]", "[][][][][][][][][][][][][][][][][][][][][][53.00]"));
 
 		JLabel lblNewLabel_5 = new JLabel("CADASTRAR VEICULO");
 		lblNewLabel_5.setFont(new Font("Monospaced", Font.BOLD, 20));
@@ -56,71 +70,113 @@ public class PanelVeiculo extends JPanel {
 		lblNewLabel_1.setFont(new Font("Monospaced", Font.BOLD, 13));
 		add(lblNewLabel_1, "cell 1 5");
 
-		textMarca = new JTextField();
-		add(textMarca, "cell 1 6,growx");
-		textMarca.setColumns(10);
+		comboBox = new JComboBox(marcas);
+		add(comboBox, "cell 1 6,growx");
 
 		JLabel lblNewLabel_2 = new JLabel("PLACA");
 		lblNewLabel_2.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_2, "cell 1 7");
+		add(lblNewLabel_2, "cell 1 8");
 
-		textPlaca = new JTextField();
-		add(textPlaca, "cell 1 8,growx");
-		textPlaca.setColumns(10);
+		
+		try {
+			MaskFormatter mascaraPlaca = new MaskFormatter("UUU-####");
+			
+			
+			textPlaca = new JFormattedTextField(mascaraPlaca);
+			add(textPlaca, "cell 1 9,growx");
+			textPlaca.setColumns(10);
+			
+			
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
 
 		JLabel lblNewLabel_3 = new JLabel("RENAVAM");
 		lblNewLabel_3.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_3, "cell 1 9");
+		add(lblNewLabel_3, "cell 1 10");
 
 		textRenavam = new JTextField();
-		add(textRenavam, "cell 1 10,growx");
+		add(textRenavam, "cell 1 11,growx");
 		textRenavam.setColumns(10);
 
 		JButton btnNewButton = new JButton("     ENTER     ");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
+				
+		
+				
+				
 				salvar();
-
 			}
 		});
 
 		JLabel lblNewLabel_4 = new JLabel("ANO");
 		lblNewLabel_4.setFont(new Font("Monospaced", Font.BOLD, 13));
-		add(lblNewLabel_4, "cell 1 11");
+		add(lblNewLabel_4, "cell 1 12");
 
 		textAno = new JTextField();
-		add(textAno, "cell 1 12");
+		add(textAno, "cell 1 13");
 		textAno.setColumns(10);
-		
+
 		lblErro = new JLabel("");
 		lblErro.setForeground(new Color(255, 0, 0));
 		lblErro.setFont(new Font("Tahoma", Font.BOLD, 15));
-		add(lblErro, "cell 1 14,alignx center,aligny center");
+		add(lblErro, "cell 1 15,alignx center,aligny center");
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 14));
-		add(btnNewButton, "cell 1 18,alignx center,growy");
-		
+		add(btnNewButton, "cell 1 21,alignx center,growy");
+		comboBox.setSelectedIndex(-1);
 		//REMOVER PARA INCLUSÃO
+
 
 	}
 
-	protected void salvar() {
-		veiculo.setMarca(textMarca.getText());
-		veiculo.setModelo(textModelo.getText());
-		veiculo.setPlaca(textPlaca.getText());
-		veiculo.setRenavam(textRenavam.getText());
+	protected void salvar(){
+
+		String letras=textPlaca.getText().substring(0,3);
+		String numeros=textPlaca.getText().substring(4,8);
+		
+		
 		try {
-			veiculo.setAno(Integer.parseInt(textAno.getText()));
-			veiculoController.salvar(veiculo);
+			String placa=(letras+numeros);
+		
+			veiculo.setPlaca(placa);
 			
+		} catch (Exception e2) {
+		}
+			
+		
+		
+		veiculo.setModelo(textModelo.getText());
+		veiculo.setRenavam(textRenavam.getText());
+		String mensagem;
+		try {
+			if(comboBox.getSelectedItem()!=null) {
+
+				veiculo.setMarca(comboBox.getSelectedItem().toString());
+			}
+			veiculo.setAno(Integer.parseInt(textAno.getText()));
 		} catch (NumberFormatException e) {
-			lblErro.setBackground(new Color(255,0,0));
-			lblErro.setText("Informe o ANO com somente dígitos");
+		}	
+		try {
+			mensagem=veiculoController.salvar(veiculo);
+			lblErro.setText(mensagem);
+			lblErro.setForeground(new Color(0,255,0));
+			lblErro.setText("Salvo com sucesso");
+			limpar();
 		} catch (ErroAoSalvarVeiculoException e) {
 			lblErro.setText(e.getMessage());
 		}
-		
-	
-		
+
+	}
+	protected void limpar() {
+		textAno.setText("");
+		textModelo.setText("");
+		textPlaca.setText("");
+		textRenavam.setText("");
+		comboBox.setSelectedIndex(-1);
 	}
 
 }

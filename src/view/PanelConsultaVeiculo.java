@@ -7,6 +7,8 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import controller.VeiculoController;
 import model.seletor.SeletorVeiculo;
+import model.vo.GeradorPlanilhaMotorista;
+import model.vo.GeradorPlanilhaVeiculo;
 import model.vo.MotoristaVO;
 import model.vo.VeiculoVO;
 
@@ -21,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,7 +46,7 @@ public class PanelConsultaVeiculo extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelConsultaVeiculo() {
-		setBackground(new Color(112, 128, 144));
+		setBackground(new Color(0, 102, 102));
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				FormSpecs.GROWING_BUTTON_COLSPEC,
@@ -160,6 +163,23 @@ public class PanelConsultaVeiculo extends JPanel {
 		add(btnConsultar, "10, 19, 3, 2, fill, center");
 		
 		JButton btnNewButton_1 = new JButton("IMPRIMIR");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+
+				JFileChooser janela = new JFileChooser();
+				int selecionado = janela.showSaveDialog(null);
+				if(selecionado==JFileChooser.APPROVE_OPTION) {
+					String caminho=janela.getSelectedFile().getAbsolutePath();
+					GeradorPlanilhaVeiculo planilha = new GeradorPlanilhaVeiculo();
+
+					String mensagem =planilha.geradorPlanilha(caminho, veiculos);
+
+					JOptionPane.showMessageDialog(null, mensagem);
+
+				}
+			}
+		});
 		add(btnNewButton_1, "16, 19, 3, 2, fill, center");
 
 	}

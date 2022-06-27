@@ -13,11 +13,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GeradorPlanilhaViagem {
 
-	
 
 
 
-		public String geradorPlanilha(String caminho,List<ViagemVO>viagens){
+
+	public String geradorPlanilha(String caminho,List<ViagemVO>viagens){
 
 		XSSFWorkbook areaTrabalho= new XSSFWorkbook();
 
@@ -25,7 +25,7 @@ public class GeradorPlanilhaViagem {
 
 		int linhaAtual=0;
 
-		String[] colunas={"data saida","data chegada","quantidade","material","regional","idmotorista","idveiculo"};
+		String[] colunas={"quantidade","material","regional","data saida","data chegada"};
 
 		criarCabecalho(colunas,planilha,linhaAtual++);
 
@@ -33,80 +33,75 @@ public class GeradorPlanilhaViagem {
 
 		return salvar(areaTrabalho, caminho,".xlsx");
 
-		}
-		private  void criarLinhasProdutos(List<ViagemVO>viagens,XSSFSheet planilha, int posicao){
+	}
+	private  void criarLinhasProdutos(List<ViagemVO>viagens,XSSFSheet planilha, int posicao){
 
 		for(ViagemVO v:viagens){
 
+			XSSFRow linhaAtual = planilha.createRow(posicao);
 
+			linhaAtual.createCell(0).setCellValue(v.getMaterial().getConteudo());
+			linhaAtual.createCell(1).setCellValue(v.getMaterial().getQuantidade());
+			linhaAtual.createCell(2).setCellValue(v.getRegional());
+			linhaAtual.createCell(3).setCellValue(v.getDataChegada()+"");
+			linhaAtual.createCell(4).setCellValue(v.getDataSaida()+"");
 
-		XSSFRow linhaAtual = planilha.createRow(posicao);
-
-	
-		linhaAtual.createCell(1).setCellValue(v.getMaterial().getConteudo());
-		linhaAtual.createCell(2).setCellValue(v.getMaterial().getQuantidade());
-		linhaAtual.createCell(3).setCellValue(v.getRegional());
-		linhaAtual.createCell(4).setCellValue(v.getMotorista().getIdMotorista());
-		linhaAtual.createCell(5).setCellValue(v.getVeiculo().getIdVeiculo());
-
-
-		posicao++;
+			posicao++;
 
 		}
 
-
-		}
-		private void criarCabecalho(String[] celulas, XSSFSheet planilha, int posicao){
+	}
+	private void criarCabecalho(String[] celulas, XSSFSheet planilha, int posicao){
 
 		XSSFRow linhaAtual = planilha.createRow(posicao);
 
 		for(int i = 0;i<celulas.length;i++){
 
-		Cell novaCell = linhaAtual.createCell(i);
-		novaCell.setCellValue(celulas[i]);
+			Cell novaCell = linhaAtual.createCell(i);
+			novaCell.setCellValue(celulas[i]);
 
 		}
 
 
-		} 
+	} 
 
-		private String salvar(XSSFWorkbook areaTrabalho, String caminho, String extensao){
+	private String salvar(XSSFWorkbook areaTrabalho, String caminho, String extensao){
 		String mensagem="";
 		FileOutputStream saida= null;
 
 
 		try{
 
-		saida= new FileOutputStream(new File(caminho+extensao));
-		areaTrabalho.write(saida);
-		mensagem="Planilha gerada com sucesso";
+			saida= new FileOutputStream(new File(caminho+extensao));
+			areaTrabalho.write(saida);
+			mensagem="Planilha gerada com sucesso";
 
 
 		}catch(FileNotFoundException e ){
 
-		mensagem = "Erro ao tentar salvar planilha em: "+caminho+extensao;
-		System.out.println(" Erro ao tentar salvar planilha "+e.getMessage());
+			mensagem = "Erro ao tentar salvar planilha em: "+caminho+extensao;
+			System.out.println(" Erro ao tentar salvar planilha "+e.getMessage());
 
 		}catch(IOException e ){
 
-		mensagem = "Erro ao tentar salvar planilha em: "+caminho+extensao;
-		System.out.println(" Erro ao tentar salvar planilha "+e.getMessage());
+			mensagem = "Erro ao tentar salvar planilha em: "+caminho+extensao;
+			System.out.println(" Erro ao tentar salvar planilha "+e.getMessage());
 		}finally{
 
-		if(saida!=null){
+			if(saida!=null){
 
-			try{
+				try{
 
-				saida.close();
-				areaTrabalho.close();
+					saida.close();
+					areaTrabalho.close();
 
-		}catch(IOException e){
+				}catch(IOException e){
 
-		mensagem="Erro ao tentar salvar Planilha "+caminho+extensao;
-		System.out.println(" Erro "+e.getMessage());
+					mensagem="Erro ao tentar salvar Planilha "+caminho+extensao;
+					System.out.println(" Erro "+e.getMessage());
+				}
+			}
 		}
-		}
-		}
-	return mensagem;
-		}
+		return mensagem;
+	}
 }

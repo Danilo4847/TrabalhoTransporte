@@ -20,11 +20,12 @@ public class ViagemController {
 		String mensagem = "";
 
 		if(novo == null) {
-			mensagem = "Informe todos os dados da viagem";
+			mensagem += "Informe todos os dados da viagem";
 		}else { 
-			mensagem = validarMaterial(novo);
-			
-		
+		//	mensagem = validarMaterial(novo);
+		mensagem = validarData(novo);
+		//	mensagem = validarQuantidade(novo);
+		mensagem=validar(novo);
 			
 			}
 		if(mensagem.isEmpty()) {
@@ -35,20 +36,50 @@ public class ViagemController {
 		return mensagem;
 	}
 	
+	private String validar(ViagemVO novo) {
+		String mensagem="";
+		if(novo.getMaterial()!=null) {
+			
+		}else {
+			mensagem+=" Preencha os campos de Material e clika no +";
+		}
+		
+		return mensagem;
+	}
+
+	private String validarData(ViagemVO novo) throws ErroAoSalvarViagemException {
+		String mensagem="";
+		if(novo.getDataSaida()!=null) {
+			
+		}else {
+			mensagem += "Informe uma data de saida";
+         //   throw new ErroAoSalvarViagemException(mensagem);
+		}
+		
+		return mensagem;
+	}
+
 	private String validarMaterial(ViagemVO novo) throws ErroAoSalvarViagemException {
 		String mensagem="";
 		if(novo.getMaterial().getConteudo()!=null && novo.getMaterial().getConteudo().trim()!=null) {
 			
 		}else {
-			mensagem += "digite o nome de maneira correta ";
-            throw new ErroAoSalvarViagemException(mensagem);
+			mensagem += "Preencha todos os campos de material ";
+       
 		}
-		
-
-
 	return mensagem;
 	}
+	private String validarQuantidade(ViagemVO novo) {
+        String mensagem="";
 
+        if(novo.getMaterial().getQuantidade()>0) {
+
+        }else{
+            mensagem+=" O meu querido(a) poderia gentilmente informa um numero numerico e prencher o campo :)";
+        }
+
+        return mensagem;
+    }
 
 	
 	
@@ -60,7 +91,6 @@ public class ViagemController {
 	}
 
 	public ArrayList<ViagemVO> consulta(SeletorViagem seletor) {
-	
 		return dao.consultaSeletor(seletor);
 	}
 	public ArrayList<MaterialVO>consultaMaterial(){
@@ -69,7 +99,18 @@ public class ViagemController {
 	public ArrayList<ViagemVO>consultageral(){
 		return dao.consultaGeral();
 	}
+	public boolean excluirViagem(int id) {
+		return dao.removerViagem(id);
 	
-
+	}
+	public boolean atualizar(ViagemVO novo) {
+		return dao.atualizar(novo);
+	}
+public ViagemVO consultaUnitaria(int id) {
+	return dao.consultaViagem(id);
+}
+public MaterialVO criarMaterial(MaterialVO matrial) {
+	return dao.criarmaterial(matrial);
+}
 }
 	

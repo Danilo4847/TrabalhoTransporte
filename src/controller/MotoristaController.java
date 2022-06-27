@@ -42,7 +42,7 @@ public class MotoristaController {
 		if(novo.getNome()!=null && novo.getNome().trim().length()>0&&novo.getNome().length()<=QUANTIDADE_DIGITOS_NOME) {
 			
 		}else {
-			mensagem += "digite o nome de maneira correta ";
+			mensagem += "Digite um nome";
             throw new ErroAoSalvarMotoristaException(mensagem);
 		}
 		
@@ -56,7 +56,7 @@ public class MotoristaController {
 			try {
 				Long.parseLong(novo.getCnh());
 			} catch (NumberFormatException excecao) {
-				mensagem = "CNH dever conter somente n�meros \n";
+				mensagem = "CNH dever conter somente números \n";
 			}
 
 			mensagem += "CNH deve conter 11 d�gitos ";
@@ -66,11 +66,7 @@ public class MotoristaController {
 		}
 		return mensagem;
 	}		
-	
-	public ArrayList<MotoristaVO> consultaCategoria() {
-		return dao.consultarCategoria(); 
-	}
-	
+
 	public ArrayList<MotoristaVO> consulta(SeletorMotorista seletor) {
 		return dao.consultaSeletor(seletor);
 	}

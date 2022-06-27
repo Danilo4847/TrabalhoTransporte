@@ -36,6 +36,10 @@ import javax.swing.JTable;
 import java.awt.Insets;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JCheckBoxMenuItem;
+import java.awt.SystemColor;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.UIManager;
 
 public class TelaExecutavel extends JFrame{
 
@@ -76,7 +80,7 @@ public class TelaExecutavel extends JFrame{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(112, 128, 144));
+		frame.getContentPane().setBackground(new Color(0, 102, 102));
 		frame.setBounds(100, 100, 800, 499);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane();
@@ -125,13 +129,20 @@ public class TelaExecutavel extends JFrame{
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				RowSpec.decode("max(5dlu;default):grow"),}));
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(TelaExecutavel.class.getResource("/icon/floresta.jpg")));
 		frame.getContentPane().add(lblNewLabel, "1, 1, 16, 11");
 		
+		JLabel lblNewLabel_1 = new JLabel("VIAGENS ABERTAS");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 30));
+		frame.getContentPane().add(lblNewLabel_1, "1, 12, 16, 1, center, center");
+		
 		table = new JTable();
+		table.setForeground(new Color(255, 255, 255));
+		table.setBackground(new Color(0, 0, 0));
 		frame.getContentPane().add(table, "4, 13, 11, 14, fill, fill");
 		atualizarTabela();
 		JButton btnAtualizar = new JButton("<<");
@@ -151,23 +162,6 @@ public class TelaExecutavel extends JFrame{
 		menuBar.setMargin(new Insets(10, 10, 0, 0));
 		menuBar.setBackground(new Color(255, 255, 255));
 		frame.setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("HOME");
-		mnNewMenu.setFont(new Font("Monospaced", Font.BOLD, 20));
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("TELA PRINCIPAL");
-		mnNewMenu.add(mntmNewMenuItem);
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaExecutavel tela = new TelaExecutavel();
-			
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-			}
-		});
-		mntmNewMenuItem.setFont(new Font("Monospaced", Font.BOLD, 20));
-		mntmNewMenuItem.setBackground(Color.WHITE);
 		
 		JMenu mnMotorista = new JMenu("MOTORISTA");
 		mnMotorista.setBackground(new Color(0, 0, 0));

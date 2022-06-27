@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -50,7 +51,7 @@ public class VeiculoController {
 		if(novo.getModelo().trim() != null && novo.getModelo().length()>0 && novo.getModelo().length()<=QUANTIDADE_DIGITOS_modelo){
 
 		}else {
-			mensagem += "digite o modelo certo ";
+			mensagem += "Informe um modelo de carro ";
 			throw new ErroAoSalvarVeiculoException(mensagem);
 		}
 		return mensagem;
@@ -62,7 +63,7 @@ public class VeiculoController {
 		if(novo.getMarca().trim() != null && novo.getMarca().length()>0&& novo.getMarca().length()<=QUANTIDADE_DIGITOS_modelo){
 
 		}else {
-			mensagem += "digite a marca certo ";
+			mensagem += "";
 			throw new ErroAoSalvarVeiculoException(mensagem);
 		}
 		return mensagem;
@@ -76,7 +77,8 @@ public class VeiculoController {
 		if((novo.getAno()>=1884) && (novo.getAno()<= ano+1)){
 			mensagem="";
 		}else{ 
-			mensagem += "informe o ano certo ";
+			ano++;
+			mensagem += "informe um ano entre 1884 até "+ano;
 			throw new ErroAoSalvarVeiculoException(mensagem);
 		}
 		return mensagem;
@@ -88,10 +90,10 @@ public class VeiculoController {
 			try {
 				Long.parseLong(novo.getRenavam());
 			} catch (NumberFormatException excecao) {
-				mensagem = "RENAVAM e ANO dever conter somente números \n";
+				mensagem = "RENAVAM dever conter somente números -   \n";
 			}
 
-			mensagem += "RENAVAM deve conter 9 dígitos ";
+			mensagem += " RENAVAM deve conter 9 dígitos ";
 
 
 			throw new ErroAoSalvarVeiculoException(mensagem);
@@ -101,9 +103,9 @@ public class VeiculoController {
 	private String validarPlaca(VeiculoVO novo) throws ErroAoSalvarVeiculoException {
 		String mensagem = "";
 		if(novo.getPlaca().trim().isEmpty()&& novo.getPlaca().trim().length() != QUANTIDADE_DIGITOS_PLACA && novo.getPlaca()!=null) {
-			mensagem +=("Informe uma placa valida com 7 digitos");
+			mensagem +=("Informe uma placa valida com 7 digitos - ");
 
-			Pattern validaçãoplaca = Pattern.compile("^[A-Z]{3}[A-Z]{4}");
+			Pattern validaçãoplaca = Pattern.compile("^[A-Z]{3}[0-9]{4}");
 			Matcher placaquasepronta = validaçãoplaca.matcher(novo.getPlaca());
 
 			if (!placaquasepronta.matches()) {

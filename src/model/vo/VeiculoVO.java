@@ -54,7 +54,7 @@ public class VeiculoVO {
 	}
 	@Override
 	public String toString() {
-		return "VeiculoVO [modelo=" + modelo + "]";
+		return this.marca.toUpperCase()+" - "+this.modelo.toUpperCase();
 	}
 	
 	

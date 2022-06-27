@@ -42,7 +42,7 @@ public class MotoristaVO {
 	}
 	@Override
 	public String toString() {
-		return this.categoriaCarteira+" "+this.nome ;
+		return "("+this.categoriaCarteira.toUpperCase()+")"+" "+this.nome.toUpperCase();
 	}
 	public String imprimir() {
 		return this.nome;
