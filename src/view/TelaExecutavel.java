@@ -145,17 +145,6 @@ public class TelaExecutavel extends JFrame{
 		table.setBackground(new Color(0, 0, 0));
 		frame.getContentPane().add(table, "4, 13, 11, 14, fill, fill");
 		atualizarTabela();
-		JButton btnAtualizar = new JButton("<<");
-		btnAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		frame.getContentPane().add(btnAtualizar, "8, 28, center, center");
-		
-		JButton btnNewButton = new JButton(">>");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		frame.getContentPane().add(btnNewButton, "10, 28, center, center");
 		
 		
 		JMenuBar menuBar = new JMenuBar();

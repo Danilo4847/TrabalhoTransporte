@@ -1,6 +1,7 @@
 package model.vo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViagemVO {
@@ -9,18 +10,16 @@ public class ViagemVO {
 	private String regional;
 	private VeiculoVO veiculo;
 	private MotoristaVO motorista;
-	private MaterialVO material;
+	private ArrayList<MaterialVO> material;
 	private LocalDateTime dataSaida;
 	private LocalDateTime dataChegada;
 
-	
-	
-	
 
-	public MaterialVO getMaterial() {
+
+	public ArrayList<MaterialVO> getMaterial() {
 		return material;
 	}
-	public void setMaterial(MaterialVO material) {
+	public void setMaterial(ArrayList<MaterialVO> material) {
 		this.material = material;
 	}
 	public int getIdviagem() {

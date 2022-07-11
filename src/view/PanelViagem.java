@@ -75,11 +75,12 @@ public class PanelViagem extends JPanel {
 	private JComboBox comboMaterial;
 	private JLabel lblERRO;
 	private MaterialVO material;
-
+	ViagemVO viagem = new ViagemVO();
+	private ArrayList<MaterialVO>materialViagem = new ArrayList<MaterialVO>();
 	/**
 	 * Create the panel.
 	 */
-	public PanelViagem(ViagemVO viagem) {
+	public PanelViagem(ViagemVO vi) {
 		frame.getContentPane().setBackground(new Color(119, 136, 153));
 
 		setBackground(new Color(51, 102, 102));
@@ -285,15 +286,17 @@ public class PanelViagem extends JPanel {
 				material = new MaterialVO();
 				material.setConteudo(comboMaterial.getSelectedItem().toString());
 				try {
-					
+
 					material.setQuantidade(Integer.parseInt(textQuantidade.getText()));
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
 				material.setSetor(comboSetor.getSelectedItem().toString());
-				viagemController.criarMaterial(material);
-				
-			
+
+				materialViagem.add(material);
+
+				viagem.setMaterial(materialViagem);
+
 			}
 		});
 		add(btnNewButton_2, "5, 34, left, default");
@@ -302,10 +305,9 @@ public class PanelViagem extends JPanel {
 		JButton btnNewButton_1 = new JButton("ALTERAR");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				
-				viagemController.atualizar(viagem);
-				
+
+
+
 			}
 		});
 		add(btnNewButton_1, "4, 38, center, fill");
@@ -323,8 +325,8 @@ public class PanelViagem extends JPanel {
 	}
 	protected void salvar() {
 
-		ViagemVO viagem = new ViagemVO();
-	
+
+
 		String mensagem="";
 
 
@@ -334,12 +336,6 @@ public class PanelViagem extends JPanel {
 		} catch (Exception e) {
 
 		}
-try {
-	viagem.setMaterial(viagemController.criarMaterial(material));
-	
-} catch (Exception e) {
-	// TODO: handle exception
-}
 
 		viagem.setMotorista((MotoristaVO)comboMotorista.getSelectedItem());
 		viagem.setVeiculo((VeiculoVO)comboVeiculo.getSelectedItem() );

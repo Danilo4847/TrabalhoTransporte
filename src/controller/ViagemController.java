@@ -15,6 +15,34 @@ public class ViagemController {
 	private ViagemDAO dao = new ViagemDAO();
 	private ViagemBO bo= new ViagemBO();
 	
+	
+	private static final int QUANTIDADE_DIGITOS_CONTEUDO = 50;
+	private static final int QUANTIDADE_DIGITOS_Setor = 80;
+
+
+
+	private String validarConteudo(MaterialVO novo) throws ErroAoSalvarViagemException {
+	        String mensagem="";
+	        if(novo.getConteudo().trim() != null && novo.getConteudo().length()>0&& novo.getConteudo().length()<=QUANTIDADE_DIGITOS_CONTEUDO){
+
+	        }else {
+	            mensagem += "erro campo conteudo preencha ele de forma valida esse campo estar limitado a 50 caracteres";
+	            throw new ErroAoSalvarViagemException(mensagem);
+	        }
+	        return mensagem;
+	    }
+
+	private String validarSetor(MaterialVO novo) throws ErroAoSalvarViagemException {
+	        String mensagem="";
+	        if(novo.getSetor().trim() != null && novo.getSetor().length()>0 && novo.getSetor().length()<=QUANTIDADE_DIGITOS_CONTEUDO){
+
+	        }else {
+	            mensagem += "erro campo Setor preencha ele de forma valida esse campo estar limitado a 80 caracteres";
+	            throw new ErroAoSalvarViagemException(mensagem);
+	        }
+	        return mensagem;
+	    }
+	
 
 	public String salvar(ViagemVO novo) throws ErroAoSalvarViagemException {
 		String mensagem = "";
@@ -58,7 +86,7 @@ public class ViagemController {
 		
 		return mensagem;
 	}
-
+/*
 	private String validarMaterial(ViagemVO novo) throws ErroAoSalvarViagemException {
 		String mensagem="";
 		if(novo.getMaterial().getConteudo()!=null && novo.getMaterial().getConteudo().trim()!=null) {
@@ -80,7 +108,7 @@ public class ViagemController {
 
         return mensagem;
     }
-
+*/
 	
 	
 	public ArrayList<ViagemVO>consultaRegional(){

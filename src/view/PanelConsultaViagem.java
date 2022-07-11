@@ -253,8 +253,8 @@ protected void atualizarTabela() {
 		viagens=viagemController.consulta(seletor);
 		
 		table.setModel(new DefaultTableModel(new String[][] { 
-			{ "data saida","data chegada","Nome motorista","Modelo veiculo","Reginal","conteudo","quantidade" }, },
-			new String[] { "data saida","data chegada","Nome motorista","Modelo veiculo","Regional","conteudo","quantidade"}));
+			{ "data saida","data chegada","Nome motorista","Modelo veiculo","Reginal", }, },
+			new String[] { "data saida","data chegada","Nome motorista","Modelo veiculo","Regional"}));
 		
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		
@@ -265,8 +265,7 @@ protected void atualizarTabela() {
 		viagem.getMotorista().getNome(),
 		viagem.getVeiculo().getModelo(),
 		viagem.getRegional(),
-		viagem.getMaterial().getConteudo(),
-		viagem.getMaterial().getQuantidade()+""
+
 			};
 			
 			modelo.addRow(novaLinha);

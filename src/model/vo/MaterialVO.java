@@ -2,12 +2,19 @@ package model.vo;
 
 public class MaterialVO {
 	
+	private int idViagem;
 	private int idmaterial;
 	private String conteudo;
 	private String setor;
 	private int quantidade;
 	
 	
+	public int getIdViagem() {
+		return idViagem;
+	}
+	public void setIdViagem(int idViagem) {
+		this.idViagem = idViagem;
+	}
 	public String getConteudo() {
 		return conteudo;
 	}

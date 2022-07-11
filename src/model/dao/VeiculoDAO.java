@@ -37,6 +37,11 @@ public class VeiculoDAO {
 			ResultSet resultado =stmtPreparedStatement.getGeneratedKeys();
 			if(resultado.next()) {
 				novo.setIdVeiculo(resultado.getInt(1));
+				
+				
+			
+				
+				
 			}
 		} catch (Exception e) {
 			System.out.println("Erro ao inserir veiculo. Causa:" + e.getMessage());

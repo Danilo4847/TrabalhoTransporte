@@ -25,7 +25,7 @@ public class GeradorPlanilhaViagem {
 
 		int linhaAtual=0;
 
-		String[] colunas={"quantidade","material","regional","data saida","data chegada"};
+		String[] colunas={"regional","data saida","data chegada"};
 
 		criarCabecalho(colunas,planilha,linhaAtual++);
 
@@ -40,11 +40,9 @@ public class GeradorPlanilhaViagem {
 
 			XSSFRow linhaAtual = planilha.createRow(posicao);
 
-			linhaAtual.createCell(0).setCellValue(v.getMaterial().getConteudo());
-			linhaAtual.createCell(1).setCellValue(v.getMaterial().getQuantidade());
-			linhaAtual.createCell(2).setCellValue(v.getRegional());
-			linhaAtual.createCell(3).setCellValue(v.getDataChegada()+"");
-			linhaAtual.createCell(4).setCellValue(v.getDataSaida()+"");
+			linhaAtual.createCell(0).setCellValue(v.getRegional());
+			linhaAtual.createCell(1).setCellValue(v.getDataChegada()+"");
+			linhaAtual.createCell(2).setCellValue(v.getDataSaida()+"");
 
 			posicao++;
 

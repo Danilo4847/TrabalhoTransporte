@@ -21,7 +21,7 @@ public class ViagemDAO {
 
 	public ViagemVO criarViagem(ViagemVO viagem) {
 		Connection conexao = Banco.getConnection();
-		String sql = " insert into viagem(idveiculo,idmotorista,idmaterial,regional,dataSaida,dataChegada)values(?,?,?,?,?,?)";
+		String sql = " insert into viagem(idveiculo,idmotorista,regional,dataSaida,dataChegada)values(?,?,?,?,?)";
 
 
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
@@ -30,16 +30,26 @@ public class ViagemDAO {
 
 			stmt.setInt(1, viagem.getVeiculo().getIdVeiculo());
 			stmt.setInt(2, viagem.getMotorista().getIdMotorista());
-			stmt.setInt(3, viagem.getMaterial().getIdmaterial());
-			stmt.setString(4, viagem.getRegional());
-			stmt.setObject(6, viagem.getDataSaida());
+			stmt.setString(3, viagem.getRegional());
+			stmt.setObject(4, viagem.getDataSaida());
 			stmt.setObject(5, viagem.getDataChegada());
 
 			stmt.execute();
 
 			ResultSet chavesGeradas = stmt.getGeneratedKeys();
 			if(chavesGeradas.next()) {
-				viagem.setIdviagem(chavesGeradas.getInt(1));
+				int id=chavesGeradas.getInt(1);
+				
+				
+				viagem.setIdviagem(id);
+				
+				
+				if(!viagem.getMaterial().isEmpty()) {
+					ViagemDAO dao = new ViagemDAO();
+					dao.criarMaterial(viagem,viagem.getMaterial());
+				}
+				
+				
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir viagem. Causa:" + e.getMessage());
@@ -85,6 +95,25 @@ public class ViagemDAO {
 	}
 	 */
 
+	private void criarMaterial(ViagemVO viagem, ArrayList<MaterialVO> material) {
+	
+		for(MaterialVO m :material){
+		m.setIdViagem(viagem.getIdviagem());
+		criarmaterial(m);
+		}
+	
+		
+		
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
 	public ArrayList<ViagemVO> consultaRegional() {
 
 		ArrayList<ViagemVO> regionais = new ArrayList<ViagemVO>();
@@ -151,9 +180,7 @@ public class ViagemDAO {
 				viagem.setMotorista(motoristaVO);
 				veiculo.setModelo(resultado.getString("modelo"));
 				viagem.setVeiculo(veiculo);
-				material.setConteudo(resultado.getString("conteudo"));
-				material.setQuantidade(resultado.getInt("quantidade"));
-				viagem.setMaterial(material);
+			
 				viagem.setIdviagem(resultado.getInt("idviagem"));
 				viagens.add(viagem);
 			}
@@ -262,9 +289,8 @@ public class ViagemDAO {
 			stmt.setInt(1, viagem.getVeiculo().getIdVeiculo());
 			stmt.setInt(2, viagem.getMotorista().getIdMotorista());
 			stmt.setString(3, viagem.getRegional());
-			stmt.setInt(4, viagem.getMaterial().getIdmaterial());
-			stmt.setObject(5, viagem.getDataChegada());
-			stmt.setObject(6, viagem.getDataSaida());
+			stmt.setObject(4, viagem.getDataChegada());
+			stmt.setObject(5, viagem.getDataSaida());
 
 
 			int linhasAfetadas = stmt.executeUpdate();
@@ -399,9 +425,8 @@ public class ViagemDAO {
 			}
 			viagem.setIdviagem(resultado.getInt("idregional"));
 
-			MaterialVO material = new MaterialVO();
-			material.setIdmaterial(resultado.getInt("idmaterial"));
-			viagem.setMaterial(material);
+		
+			
 			motoristaVO.setNome(resultado.getString("nome"));
 			viagem.setMotorista(motoristaVO);
 			veiculo.setModelo(resultado.getString("modelo"));
@@ -419,7 +444,7 @@ public class ViagemDAO {
 
 	public MaterialVO criarmaterial(MaterialVO material) {
 		Connection conexao = Banco.getConnection();
-		String sql = " insert into material(conteudo,quantidade,setor)values(?,?,?)";
+		String sql = " insert into material(conteudo,quantidade,setor,idviagem)values(?,?,?,?)";
 
 
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
@@ -430,7 +455,7 @@ public class ViagemDAO {
 			stmt.setString(1, material.getConteudo());
 			stmt.setInt(2, material.getQuantidade());
 			stmt.setString(3, material.getSetor());
-
+			stmt.setInt(4, material.getIdViagem());
 			stmt.execute();
 
 			ResultSet chavesGeradas = stmt.getGeneratedKeys();
